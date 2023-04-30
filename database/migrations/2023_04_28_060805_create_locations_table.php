@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('username')->unique();
-            $table->string('password');
+            $table->string('name')->unique();
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             $table->boolean('status')->default(true);
-            $table->string('role_name')->nullable();
-            $table->bigInteger('user_id')->nullable();
-            $table->index(['name', 'username', 'status', 'role_name']);
-            $table->rememberToken();
+            $table->bigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unique(['latitude', 'longitude']);
+            $table->index('name');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('locations');
     }
 };
