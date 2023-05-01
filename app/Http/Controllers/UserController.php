@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
-use Validator;
-use Exception;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -27,7 +27,8 @@ class UserController extends Controller
             })
            ->latest()
            ->paginate();
-           return response()->json($users , 200);
+           
+           return response()->json( [ $users, Auth::user()] , 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'users.index.failed',
@@ -37,9 +38,11 @@ class UserController extends Controller
     }
 
     public function create(Request $request) {
-        $data = $request->all();
-        $data['password'] = Hash::make($data['password']);
-        $user = User::create($data);
-        return response()->json($user, 200);
+        $user = User::create($request->all());
+        $response = [
+            "token" => $user->createToken('systemWhatsapp')->plainTextToken,
+            "user"  => $user
+        ];
+        return response()->json($response, 200);
     }
 }

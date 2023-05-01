@@ -28,9 +28,15 @@ Route::get('/phpinfo', function () {
     phpinfo(); 
 });
 
-Route::get('/users', [UserController::class, 'index']);
+Route::get('/users', [UserController::class, 'index'])->middleware(["auth:sanctum"]);
 Route::post('/users', [UserController::class, 'create']);
 Route::get('/locations', [LocationController::class, 'index']);
 Route::post('/locations', [LocationController::class, 'create']);
 Route::get('/quotes', [QuoteController::class, 'index']);
 Route::post('/quotes', [QuoteController::class, 'create']);
+Route::post('/login', [QuoteController::class, 'create']);
+
+Route::fallback(function(){
+    return response()->json([
+        'message' => 'Page not found. If the error persists, contact your system team'], 404);
+});
