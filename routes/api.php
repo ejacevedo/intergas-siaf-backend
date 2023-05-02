@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/locations', [LocationController::class, 'index']);
     Route::post('/locations', [LocationController::class, 'create']);
     Route::get('/quotes', [QuoteController::class, 'index']);
+    Route::post('/quotes/build', [QuoteController::class, 'build']);
     Route::post('/quotes', [QuoteController::class, 'create']);
 });
 

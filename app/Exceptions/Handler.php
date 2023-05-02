@@ -44,7 +44,9 @@ class Handler extends ExceptionHandler
                         'message' => 'External API call failed',
                         'error' => 'Entry for '.str_replace('App', '', $exception->getModel()).' not found'
                     ], 404);
-            } 
+            } else if($exception instanceof AuthenticationException) {
+                return response()->json(['error' => 'Unauthenticated'], 401);
+            }
             else {
                 return response()->json(
                     [ 
@@ -56,14 +58,19 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    protected function unauthenticated($request, AuthenticationException $exception) 
+    protected function unauthenticated($request, AuthenticationException $exception)
     {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest('login');
+        return response()->json(['error' => '123213Unauthenticated.'], 401);
     }
+
+    // protected function unauthenticated($request, AuthenticationException $exception) 
+    // {
+    //     if ($request->expectsJson()) {
+    //         return response()->json(['error' => 'Unauthenticated11.'], 401);
+    //     }
+
+    //     return redirect()->guest('login');
+    // }
 
     // protected function unAuthenticated($request, AuthenticationException $exception)
     // {
