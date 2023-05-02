@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\QuoteController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\DB;
 use App\Models\Person;
 
@@ -19,24 +20,27 @@ use App\Models\Person;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
+Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('/users', [UserController::class, 'index']);
+    Route::post('/users', [UserController::class, 'create']);
+    Route::get('/locations', [LocationController::class, 'index']);
+    Route::post('/locations', [LocationController::class, 'create']);
+    Route::get('/quotes', [QuoteController::class, 'index']);
+    Route::post('/quotes', [QuoteController::class, 'create']);
+});
 
 Route::get('/phpinfo', function () {
     phpinfo(); 
 });
 
-Route::get('/users', [UserController::class, 'index'])->middleware(["auth:sanctum"]);
-Route::post('/users', [UserController::class, 'create']);
-Route::get('/locations', [LocationController::class, 'index']);
-Route::post('/locations', [LocationController::class, 'create']);
-Route::get('/quotes', [QuoteController::class, 'index']);
-Route::post('/quotes', [QuoteController::class, 'create']);
-Route::post('/login', [QuoteController::class, 'create']);
-
 Route::fallback(function(){
     return response()->json([
-        'message' => 'Page not found. If the error persists, contact your system team'], 404);
+        'message' => 'Endpoint not found. If the error persists, contact your system team'], 404);
 });
