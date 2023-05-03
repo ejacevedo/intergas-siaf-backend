@@ -21,15 +21,18 @@ class AuthController extends Controller
         if(Auth::attempt($credentials)){
             $user = Auth::user();
             $token = $user->createToken('token')->plainTextToken;
-            $cookie = cookie('cookie_token', $token, 60 * 24);
-            return response(["token"=>$token], Response::HTTP_OK)->withoutCookie($cookie);
+            // $cookie = cookie('cookie_token', $token, 60 * 24);
+            // return response(["token"=>$token], Response::HTTP_OK)->withoutCookie($cookie);
+            return response(["token"=>$token], Response::HTTP_OK);
+
         } else {
-            return response(["message"=> "invalid credentials"],Response::HTTP_UNAUTHORIZED);
+            return response(["message"=> "Invalid credentials."],Response::HTTP_UNAUTHORIZED);
         }
     }
 
-    public function logout(Request $resquest) {
-
+    public function logout(Request $request) {
+        $request->user()->currentAccessToken()->delete();
+        return response(null, Response::HTTP_OK);
     }
 
     public function allUsers(Request $resquest) {

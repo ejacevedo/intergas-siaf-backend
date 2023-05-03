@@ -24,8 +24,8 @@ use App\Models\Person;
 //     return $request->user();
 // });
 
-Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/users', [UserController::class, 'index']);
@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/quotes', [QuoteController::class, 'index']);
     Route::post('/quotes/build', [QuoteController::class, 'build']);
     Route::post('/quotes', [QuoteController::class, 'create']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::get('/phpinfo', function () {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Settings;
 
 class Quote extends Model
 {
@@ -22,5 +23,27 @@ class Quote extends Model
         'cost_food',
         'cost_hotel'
     ];
+
+    // public function settings()
+    // {
+    //     return $this->belongsTo(Settings::class);
+    //     // return $this->belongsTo('App\Models\Settings');
+    // }
+
+    public function getCoolName1Attribute()
+    {
+        return $this->attributes['kilometer'];
+    }
+
+    public function getAgeAttribute($value)
+    {
+        return $this->attributes['kilometer'];
+    }
+
+    // public function settings()
+    // {
+    //     return Settings::where('id', 1)->get();
+    // }
+
     
 }
