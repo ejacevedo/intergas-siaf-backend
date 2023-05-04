@@ -7,6 +7,7 @@ use App\Models\Quote;
 use App\Models\Settings;
 use Illuminate\Support\Facades\DB;
 use App\Lib\QuotationRules;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use Validator;
 use Exception;
@@ -58,7 +59,7 @@ class QuoteController extends Controller
             ->first();
 
             if(empty($quote)) {
-                return response(null, 404);
+                throw new ModelNotFoundException('Selected locations have no route for quotation');
             }
             
             $quote['liters'] = $quotationRules->getLiters($quote);
