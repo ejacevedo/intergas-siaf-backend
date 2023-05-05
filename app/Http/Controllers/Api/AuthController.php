@@ -8,6 +8,9 @@ use Illuminate\Http\Response;
 // use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
 
 class AuthController extends Controller
 {
@@ -37,5 +40,20 @@ class AuthController extends Controller
 
     public function allUsers(Request $resquest) {
 
+    }
+
+    public function changePassword(Request $request){
+        $validated = $request->validate([
+            'new_password'     => 'required',
+            'password_confirmation' => 'required|same:new_password',
+        ]);
+
+        User::whereId(Auth::id())->update([
+            'password' => Hash::make($request->new_password) 
+        ]);
+
+        return response()->json([
+            'message' => 'Updated password.'
+        ], 200);
     }
 }

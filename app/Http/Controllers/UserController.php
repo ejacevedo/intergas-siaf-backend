@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -28,8 +27,7 @@ class UserController extends Controller
             })
            ->latest()
            ->paginate();
-           
-           return response()->json( [ $users, Auth::user()] , 200);
+           return response()->json($users, 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'users.index.failed',
@@ -46,4 +44,17 @@ class UserController extends Controller
         ];
         return response()->json($response, 200);
     }
+
+    public function assignRole(Request $request, $id) {
+        // $response = [
+        //     "userId" => $id,
+        //     "data"  => $request->all()
+        // ];
+        return response()->json([
+            'message' => 'Successfully assigned roles'
+        ], 200);
+        // return response()->json($response, 200);
+    }
+
+    
 }

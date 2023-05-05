@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Validation\ValidationException;
 // use Illuminate\Auth\Middleware\Authenticate;
 
 // use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -46,13 +47,19 @@ class Handler extends ExceptionHandler
                     ], 404);
             } else if($exception instanceof AuthenticationException) {
                 return response()->json(['error' => 'Unauthenticated'], 401);
+            } else if($exception instanceof ValidationException) {
+                return response()->json(
+                    [ 
+                        'message' => 'Validation exception.',  
+                        'error' => $exception->getMessage()
+                    ],400);
             }
             else {
                 return response()->json(
-                    [ 
-                        'message' => 'External API call failed ',  
-                        'error' => $exception->getMessage()
-                    ],500);
+                [ 
+                    'message' => 'External API call failed ',  
+                    'error' => $exception->getMessage()
+                ],500);
             }
         }
         return parent::render($request, $exception);
