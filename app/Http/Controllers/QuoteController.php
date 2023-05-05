@@ -52,15 +52,16 @@ class QuoteController extends Controller
                 return response(null, 400);
             }
 
-            $quote = Quote::get()
-            ->where('point_a_location_id', $request->input('point_a'))
+            $quote = Quote::where('point_a_location_id', $request->input('point_a'))
             ->where('point_b_location_id', $request->input('point_b'))
             ->where('point_c_location_id', $request->input('point_c'))
+            ->with('location_a','location_b', 'location_c')
             ->first();
 
             if(empty($quote)) {
                 throw new ModelNotFoundException('Selected locations have no route for quotation');
             }
+            
             
             $quote['liters'] = $quotationRules->getLiters($quote);
             $quote['cost_travel'] = $quotationRules->getCostTravel($quote);
