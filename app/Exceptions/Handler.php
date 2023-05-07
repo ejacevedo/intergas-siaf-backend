@@ -65,10 +65,11 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        return response()->json(['error' => '123213Unauthenticated.'], 401);
-    }
+    // Ultimas pruebasssss..
+    // protected function unauthenticated($request, AuthenticationException $exception)
+    // {
+    //     return response()->json(['error' => '123213Unauthenticated.'], 401);
+    // }
 
     // protected function unauthenticated($request, AuthenticationException $exception) 
     // {

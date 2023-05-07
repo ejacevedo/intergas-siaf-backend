@@ -32,7 +32,7 @@ class AuthController extends Controller
             ], Response::HTTP_OK);
 
         } else {
-            return response(["message"=> "Invalid credentials."],Response::HTTP_UNAUTHORIZED);
+            return response(["message"=>  __('auth.failed')],Response::HTTP_UNAUTHORIZED);
         }
     }
 
