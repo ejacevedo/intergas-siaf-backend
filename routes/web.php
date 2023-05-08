@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
+use App\Http\Livewire\User\Index as UserIndex;
+use App\Http\Livewire\User\Edit as UserEdit;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -28,6 +31,11 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/users', UserIndex::class)->name('users.index');
+    Route::get('/users/{id}/edit', UserEdit::class)->name('users.edit');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
