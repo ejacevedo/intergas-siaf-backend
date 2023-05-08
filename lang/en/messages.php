@@ -1,4 +1,5 @@
-<?php
+<?php 
+
 return [
-    'welcome' => 'Welcome to our application!',
+    'Profissle' => 'Perfil'
 ];
