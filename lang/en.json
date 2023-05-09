@@ -35,5 +35,12 @@
     "Confirm Password": "Confirm Password",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
     "Name": "Name",
-    "Users": "Users"
+    "Users": "Users",
+    "Showing": "Showing",
+    "of": "if",
+    "to": "to",
+    "results" : "results",
+    "Search by name or user": "Search by name or user",
+    "Create user": "Create User",
+    "Edit User": "Edit User"
 }

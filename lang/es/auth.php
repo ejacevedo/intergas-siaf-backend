@@ -17,5 +17,5 @@ return [
     'failed' => 'Credenciales no válidas.',
     'password' => 'La contraseña introducida es incorrecta.',
     'throttle' => 'Demasiados intentos de conexión. Por favor, inténtelo de nuevo en :segundos segundos.',
-
+    'user_inactive' => 'Su cuenta se encuentra inactiva',
 ];

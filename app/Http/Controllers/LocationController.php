@@ -19,7 +19,7 @@ class LocationController extends Controller
                 $query->where('name', 'like', "%$filter%");                       
             })
             ->orderBy('name')
-           ->paginate();
+           ->paginate(200);
            return response()->json($locations , 200);
         } catch (Exception $e) {
             return response()->json([

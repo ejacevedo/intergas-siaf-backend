@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 use App\Http\Livewire\User\Index as UserIndex;
 use App\Http\Livewire\User\Edit as UserEdit;
+use App\Http\Livewire\User\Create as UserCreate;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/users', UserIndex::class)->name('users.index');
-    Route::get('/users/{id}/edit', UserEdit::class)->name('users.edit');
+    Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+    Route::get('/users/create', UserCreate::class)->name('users.create');
 });
 
 Route::middleware('auth')->group(function () {

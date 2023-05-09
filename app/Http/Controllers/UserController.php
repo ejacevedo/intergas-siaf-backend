@@ -26,7 +26,7 @@ class UserController extends Controller
                 $query->orWhere('status', request('status'));                        
             })
            ->latest()
-           ->paginate();
+           ->paginate(200);
            return response()->json($users, 200);
         } catch (Exception $e) {
             return response()->json([

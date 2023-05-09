@@ -34,5 +34,12 @@
     "Confirm Password": "Confirmar contraseña",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.": "Una vez que se elimine su cuenta, todos sus recursos y datos se eliminarán de forma permanente. Antes de eliminar su cuenta, descargue cualquier dato o información que desee conservar.",
     "Name": "Nombre",
-    "Users": "Usuarios"
+    "Users": "Usuarios",
+    "Showing": "Mostrando",
+    "of": "de",
+    "to": "a",
+    "results" : "resultados",
+    "Search by name or user": "Buscar por nombre o usuario",
+    "Create User": "Crear Usuario",
+    "Edit User": "Editar Usuario"
 }

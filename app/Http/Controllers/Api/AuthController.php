@@ -23,9 +23,12 @@ class AuthController extends Controller
 
         if(Auth::attempt($credentials)){
             $user = Auth::user();
+            
+            if(!$user->status) {
+                return response(["message"=>  __('auth.user_inactive')],Response::HTTP_UNAUTHORIZED);
+            }
+
             $token = $user->createToken('token')->plainTextToken;
-            // $cookie = cookie('cookie_token', $token, 60 * 24);
-            // return response(["token"=>$token], Response::HTTP_OK)->withoutCookie($cookie);
             return response([
                 'token'=>$token, 
                 'roles' => ['super admin', 'cotizador', 'admin cotizado'] 

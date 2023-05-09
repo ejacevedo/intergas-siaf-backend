@@ -1,8 +1,33 @@
 <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <!-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Users') }}
-        </h2>
+        </h2> -->
+        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="sm:ml-05">
+            <span>  {{ __('List Users') }} </span>
+        </x-nav-link>
+
+        <x-nav-link :href="route('users.create')" :active="request()->routeIs('users.create')" >
+            <span class="px-4" > {{ __('Create User') }} </span>
+        </x-nav-link>
 </x-slot>
+
+<!-- <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+                </div> -->
+
+
+<div class="py-12">
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 ">
+                    <x-text-input id="filter" name="filter" type="text" class="mt-1 block w-full"  autocomplete="name"   placeholder="{{ __('Search by name or user') }}" />
+                </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -10,7 +35,7 @@
             <div class="p-6 text-gray-900">
                 <ul role="list" class="divide-y divide-blue-200">
                     @foreach ($users as $user)
-                        <li class="flex justify-between gap-x-6 py-4">
+                        <li class="flex justify-between gap-x-6 py-4 border-b border-gray-100">
                             <div class="flex gap-x-4">
                                 <div class="min-w-0 flex-auto">
                                     <p class="text-sm font-semibold leading-6 text-gray-900">{{ $user->name }} - {{ $user->username }}</p>

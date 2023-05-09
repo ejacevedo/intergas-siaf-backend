@@ -13,8 +13,11 @@ class Index extends Component
 {
     public function render()
     {
-        $users = User::where('id', '<>',Auth::id()) 
-        ->paginate(5);
-        return view('livewire.user.index', compact('users'));
+        // $users = User::where('id', '<>',Auth::id()) 
+        // ->paginate(5);
+        // return view('livewire.user.index', compact('users'));
+        return view('livewire.user.index', [
+            'users' => User::where('id', '<>',Auth::id())->latest()->paginate(5),
+        ]);
     }
 }
