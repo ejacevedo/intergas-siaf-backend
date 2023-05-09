@@ -2,12 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\Api\AuthController;
-use Illuminate\Support\Facades\DB;
-use App\Models\Person;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\QuoteController;
+use App\Http\Controllers\Api\LocationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +22,6 @@ use App\Models\Person;
 //     return $request->user();
 // });
 
-
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:sanctum']], function(){
@@ -38,10 +35,6 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::post('/quotes', [QuoteController::class, 'create']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/change_password', [AuthController::class, 'changePassword']);
-});
-
-Route::get('/phpinfo', function () {
-    phpinfo(); 
 });
 
 Route::fallback(function(){
