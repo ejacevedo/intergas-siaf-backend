@@ -42,5 +42,7 @@
     "results" : "results",
     "Search by name or user": "Search by name or user",
     "Create user": "Create User",
-    "Edit User": "Edit User"
+    "Edit User": "Edit User",
+    "List Users": "List Users",
+    "User data": "User data"
 }

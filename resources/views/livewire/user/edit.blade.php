@@ -28,14 +28,14 @@
                     <div class="mb-4">
                         <label for="name" class="block font-medium text-sm text-gray-700">{{ __('Name') }}</label>
                         <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" wire:model="name">
-                        @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
+                        @error('name') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
 
                     <div class="mb-4">
                         <label for="username" class="block font-medium text-sm text-gray-700">{{ __('Username') }}</label>
                         <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" wire:model="username">
-                        @error('username') <span class="text-red-500">{{ $message }}</span>@enderror
+                        @error('username') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                
@@ -71,14 +71,14 @@
                    
                     <div class="mb-4">
                         <label for="password" class="block font-medium text-sm text-gray-700">{{ __('New Password') }}</label>
-                        <input type="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" wire:model="password">
-                        @error('password') <span class="text-red-500">{{ $message }}</span>@enderror
+                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" wire:model="password">
+                        @error('password') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div class="mb-4">
                         <label for="password_confirmation" class="block font-medium text-sm text-gray-700">{{ __('Confirm Password') }}</label>
-                        <input type="password_confirmation" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password_confirmation" wire:model="password_confirmation">
-                        @error('password_confirmation') <span class="text-red-500">{{ $message }}</span>@enderror
+                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password_confirmation" wire:model="password_confirmation">
+                        @error('password_confirmation') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
 
