@@ -10,8 +10,13 @@ use Illuminate\Support\Facades\DB;
 use App\Lib\QuotationRules;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
+use Illuminate\Database\Query\Builder;
+
 use Validator;
 use Exception;
+
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class QuoteController extends Controller
 {
@@ -26,8 +31,19 @@ class QuoteController extends Controller
             })->when(request('point_c'), function ($query) {
                 $query->where('point_c_location_id', request('point_c'));                      
             })
+            ->with('location_a','location_b', 'location_c')
+            ->whereHas('location_a', function ($query)  {
+                $query->where('status', true);
+            })
+            ->whereHas('location_b', function ($query)  {
+                $query->where('status', true);
+            })
+            ->whereHas('location_c', function ($query)  {
+                $query->where('status', true);
+            })
             ->latest()
             ->paginate();
+            
             return response()->json($quotes , 200);
         } catch (Exception $e) {
             return response()->json([
@@ -57,12 +73,20 @@ class QuoteController extends Controller
             ->where('point_b_location_id', $request->input('point_b'))
             ->where('point_c_location_id', $request->input('point_c'))
             ->with('location_a','location_b', 'location_c')
+            ->whereHas('location_a', function ($query)  {
+                $query->where('status', true);
+            })
+            ->whereHas('location_b', function ($query)  {
+                $query->where('status', true);
+            })
+            ->whereHas('location_c', function ($query)  {
+                $query->where('status', true);
+            })
             ->first();
 
             if(empty($quote)) {
                 throw new ModelNotFoundException('Selected locations have no route for quotation');
             }
-            
             
             $quote['liters'] = $quotationRules->getLiters($quote);
             $quote['cost_travel'] = $quotationRules->getCostTravel($quote);
@@ -81,6 +105,7 @@ class QuoteController extends Controller
 
     public function create(Request $request) {
         $quote = Quote::create($request->all());
+        // $quote =Quote::insert($request->all());
         return response()->json($quote, 200);
     }
 

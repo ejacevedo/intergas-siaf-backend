@@ -46,11 +46,14 @@
     "User data": "Datos de Usuario",
     "CSV format required." : "Formato CSV requerido.",
     "Upload file": "Cargar archivo",
-    "Load locations file": "Cargar archivo de ubicaciones (Tipo CSV)",
+    "Load locations file": "Cargar archivo de ubicaciones",
     "Load file of routing - expenses": "Cargar archivo de rutas y gastos",
     "I am aware that these changes will affect the cost of the quotation.": "Soy consciente que estos cambios afectan los costos de cotización.",
     "Incorrect csv format.": "Formato csv incorrecto.",
     "csv_error_create_bulk": "No se han logrado crear sus :attribute, verifique que su archivo no tenga valores repetidos.",
-    "locations": "ubicaciones"
-
+    "locations": "ubicaciones",
+    "quotes": "cotizaciones",
+    "incorrect_route_format": "Formato de ruta incorrecto - Linea :line.",
+    "location_not_found": "Ubicación no encontrada - Linea :line.",
+    "csv_format": "CSV Formato"
 }
