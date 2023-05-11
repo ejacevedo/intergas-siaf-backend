@@ -1,3 +1,13 @@
+<x-slot name="header">
+        <!-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Users') }}
+        </h2> -->
+        <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')" class="sm:ml-05">
+            <span>  {{ __('Parameter settings') }} </span>
+        </x-nav-link>
+
+  
+</x-slot>
 
 
 <div class="py-12">

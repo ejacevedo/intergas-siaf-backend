@@ -21,7 +21,7 @@
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
-                            {{ __("Update your account's profile information.") }}
+                            {{ __("Update account information.") }}
                         </p>
                     </header>
                     
@@ -65,7 +65,7 @@
                         </h2>
 
                         <p class="mt-1 text-sm text-gray-600">
-                            {{ __('Ensure your account is using a long, random password to stay secure.') }}
+                            {{ __('Make sure this account uses a long, random password to maintain security.') }}
                         </p>
                     </header>
                    

@@ -52,7 +52,7 @@
                     </div>        
 
                     <div>
-                        <label for="password" class="block font-medium text-sm text-gray-700">{{ __('New Password') }}</label>
+                        <label for="password" class="block font-medium text-sm text-gray-700">{{ __('Password') }}</label>
                         <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="password" wire:model.defer="password">
                         @error('password') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
