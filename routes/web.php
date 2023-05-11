@@ -6,6 +6,9 @@ use App\Http\Livewire\User\Index as UserIndex;
 use App\Http\Livewire\User\Edit as UserEdit;
 use App\Http\Livewire\User\Create as UserCreate;
 
+use App\Http\Livewire\Setting\Edit as SettingEdit;
+
+
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -56,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/settings', SettingEdit::class)->name('settings.edit');
     
 
 });

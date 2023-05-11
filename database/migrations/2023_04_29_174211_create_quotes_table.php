@@ -24,9 +24,9 @@ return new class extends Migration
             $table->decimal('cost_food', 8, 2)->default(0);
             $table->decimal('cost_hotel', 8, 2)->default(0);
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('point_a_location_id')->references('id')->on('locations');
-            $table->foreign('point_b_location_id')->references('id')->on('locations');
-            $table->foreign('point_c_location_id')->references('id')->on('locations');
+            // $table->foreign('point_a_location_id')->references('id')->on('locations');
+            // $table->foreign('point_b_location_id')->references('id')->on('locations');
+            // $table->foreign('point_c_location_id')->references('id')->on('locations');
             $table->unique(['point_a_location_id', 'point_b_location_id', 'point_c_location_id']);
             $table->index(['point_a_location_id', 'point_b_location_id', 'point_c_location_id']);
             $table->timestamps();

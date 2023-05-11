@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Quote;
-use App\Models\Settings;
+use App\Models\Setting;
 use Illuminate\Support\Facades\DB;
 use App\Lib\QuotationRules;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -47,7 +47,7 @@ class QuoteController extends Controller
                 'point_c' => 'required'
             ]);
 
-            $setting =  Settings::get()->first();
+            $setting =  Setting::get()->first();
 
             if(empty($setting)) {
                 return response(null, 400);

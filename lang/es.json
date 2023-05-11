@@ -23,7 +23,7 @@
     "Save": "Guardar",
     "Update Password": "Actualizar contraseña",
     "Ensure your account is using a long, random password to stay secure.": "Asegúrese de que su cuenta esté utilizando una contraseña larga y aleatoria para mantenerla segura.",
-    "Saved": "Guardado",
+    "Saved.": "Guardado",
     "Profile Information": "Información de perfil",
     "Your email address is unverified.": "Su dirección de correo electrónico no está verificada.",
     "Click here to re-send the verification email.": "Haga clic aquí para reenviar el correo electrónico de verificación.",
@@ -43,5 +43,14 @@
     "Create User": "Crear Usuario",
     "Edit User": "Editar Usuario",
     "List Users": "Listar Usuarios",
-    "User data": "Datos de Usuario"
+    "User data": "Datos de Usuario",
+    "CSV format required." : "Formato CSV requerido.",
+    "Upload file": "Cargar archivo",
+    "Load locations file": "Cargar archivo de ubicaciones (Tipo CSV)",
+    "Load file of routing - expenses": "Cargar archivo de rutas y gastos",
+    "I am aware that these changes will affect the cost of the quotation.": "Soy consciente que estos cambios afectan los costos de cotización.",
+    "Incorrect csv format.": "Formato csv incorrecto.",
+    "csv_error_create_bulk": "No se han logrado crear sus :attribute, verifique que su archivo no tenga valores repetidos.",
+    "locations": "ubicaciones"
+
 }

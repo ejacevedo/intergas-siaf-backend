@@ -23,7 +23,7 @@
     "Save": "Save",
     "Update Password": "Update Password",
     "Ensure your account is using a long, random password to stay secure.": "Ensure your account is using a long, random password to stay secure.",
-    "Saved": "Saved",
+    "Saved.": "Saved.",
     "Profile Information": "Profile Information",
     "Your email address is unverified.": "Your email address is unverified.",
     "Click here to re-send the verification email.": "Click here to re-send the verification email.",
@@ -44,5 +44,13 @@
     "Create user": "Create User",
     "Edit User": "Edit User",
     "List Users": "List Users",
-    "User data": "User data"
+    "User data": "User data",
+    "CSV format required." : "CSV format required",
+    "Upload file": "Upload file",
+    "Load locations file": "Load locations file (Type CSV)",
+    "Load file of routing - expenses": "Load file of routing - expenses",
+    "I am aware that these changes will affect the cost of the quotation.": "I am aware that these changes will affect the cost of the quotation.",
+    "Incorrect csv format.": "Incorrect csv format.",
+    "csv_error_create_bulk": "Your :attribute have not been created, check that your file does not have repeated values.",
+    "locations": "locations"
 }
