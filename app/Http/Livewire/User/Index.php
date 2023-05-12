@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class Index extends Component
 {
+    
+    // use WithPagination;
+
+    public $search;
+
     public function render()
     {
         // $users = User::where('id', '<>',Auth::id()) 

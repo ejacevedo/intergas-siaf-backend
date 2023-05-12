@@ -22,7 +22,7 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 ">
-                    <x-text-input id="filter" name="filter" type="text" class="mt-1 block w-full"  autocomplete="name"   placeholder="{{ __('Search by name or user') }}" />
+                    <x-text-input id="search" name="search" type="text" class="mt-1 block w-full"   placeholder="{{ __('Search by name or user') }}" wire:model="search"/>
                 </div>
         </div>
     </div>
