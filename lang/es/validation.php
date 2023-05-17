@@ -179,6 +179,9 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'username' => 'usuario',
+        'selected_roles' => 'perfiles'
+    ],
 
 ];

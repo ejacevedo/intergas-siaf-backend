@@ -15,8 +15,11 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
+    public $na = 'asdad';
+
     public function render()
     {
+        $this->na = 'asdsad';
         $users = User::where('id', '<>',Auth::id())
         ->when($this->search !== '', function ($query) {
             $query->where('name', 'like', "%$this->search%")

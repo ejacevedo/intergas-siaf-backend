@@ -21,6 +21,9 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 
+
+use App\Constants\Roles;
+
 /*'
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +43,8 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 // Route::get('/', [AuthenticatedSessionController::class, 'create']);
 
 
+
+
 Route::middleware('guest')->group(function () {
     Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -52,19 +57,37 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+
+// Route::group(['auth' => ['role:root']], function () {
+// // Route::group(['auth' => ['role:root|admin quote']], function () {
+//     Route::get('/users', UserIndex::class)->name('users.index');
+//     Route::get('/users/shows', UserShows::class)->name('users.show');
+//     Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+//     Route::get('/users/create', UserCreate::class)->name('users.create');
+    
+// });
+
+Route::group(['middleware' => ['role:'.Roles::ROOT]], function () {
     Route::get('/users', UserIndex::class)->name('users.index');
     Route::get('/users/shows', UserShows::class)->name('users.show');
     Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
     Route::get('/users/create', UserCreate::class)->name('users.create');
-    
+    Route::get('/settings', SettingEdit::class)->name('settings.edit');
+});
+
+Route::group([
+    'middleware' => 
+        [
+            'role:'.implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE])
+        ]
+], function () {
+    Route::get('/settings', SettingEdit::class)->name('settings.edit');
+});
+
+Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-    Route::get('/settings', SettingEdit::class)->name('settings.edit');
-    
-
 });
 
 require __DIR__.'/auth.php';

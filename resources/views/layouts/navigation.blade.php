@@ -5,22 +5,23 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('users.index') }}">
+                    <a href="{{ Auth::user()->hasRole($roles::ROOT) ? route('users.index') : route('settings.edit') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
              
-
+                @hasrole('root')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create')">
                         {{ __('Users') }}
                     </x-nav-link>
                 </div>
+                @endhasrole
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')">
-                        {{ __('Quote') }}
+                    {{ __('Quote') }}
                     </x-nav-link>
                 </div>
             </div>

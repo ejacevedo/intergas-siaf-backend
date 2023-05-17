@@ -21,6 +21,9 @@ use Illuminate\Validation\Rules\File;
 use Exception;
 
 
+use Spatie\Permission\Models\Role;
+
+
 
 class Edit extends Component
 {
@@ -34,6 +37,7 @@ class Edit extends Component
     public array $csv_fields_quotes =  ['ruta', 'km', 'lts', 'casetas', 'pemex', 'pension', 'comidas', 'hotel'];
     public string $file_locations_message;
     public string $file_quotes_message;
+    public $all_roles_except_a_and_b;
 
     protected function rules()
     {
@@ -52,6 +56,8 @@ class Edit extends Component
     public function mount()
     {
         $this->setting =  Setting::get()->first();
+        $this->all_roles_except_a_and_b = Role::whereNotIn('name', ['role A', 'role B'])->get();
+
     }
 
     public function save()
