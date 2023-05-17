@@ -63,9 +63,21 @@
                         @error('password_confirmation') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
+                    
+
                     <div>
-                        <label for="roles" class="block font-medium text-sm text-gray-700">{{ __('Status')  }}</label>
-                        <select id="roles" class="border border-gray-300 text-sm rounded focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full"  wire:model.defer="user.status">
+                        <label for="roles" class="block font-medium text-sm text-gray-700">{{ __('Roles')  }}</label>
+                        <select multiple id="roles" class="border border-gray-300 text-sm rounded focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full" wire:model.defer="selected_roles">
+                            @foreach ($roles as $role)
+                                <option value="{{$role->name}}"> {{ __( $role->name) }}</option>
+                            @endforeach
+                        </select>
+                        @error('selected_roles') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                    </div>
+
+                    <div>
+                        <label for="status" class="block font-medium text-sm text-gray-700">{{ __('Status')  }}</label>
+                        <select id="status" class="border border-gray-300 text-sm rounded focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full"  wire:model.defer="user.status">
                         <option value="true">{{ __('Activo') }}</option>
                         <option value="false">{{ __('Inactivo')}}</option>
                         </select>

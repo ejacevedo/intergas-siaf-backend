@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Validation\ValidationException;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -27,8 +29,18 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
+        $user = Auth::guard('web')->user();
 
+        if (!$user->hasAnyRole(['root', 'admin quote'])) {
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+            return redirect()->back()->withErrors([
+                'message' => __('auth.roles_unauthorized'),
+            ]);
+        }
+
+        $request->session()->regenerate();
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

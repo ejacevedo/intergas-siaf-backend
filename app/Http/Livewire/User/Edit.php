@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\User;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 // use Illuminate\Validation\Validator;
@@ -19,11 +20,14 @@ class Edit extends Component
     public string $password = '';
     public string $password_confirmation = '';
     public string $asda = '';
+    public $roles;
+    public $selected_roles;
      
 
     protected $rules = [
         'name' => 'required|string',
         'username' => 'required|string',
+        'selected_roles' => 'required|array',
         // 'password' => ['required', Password::defaults()],
         // 'password' => 'required|string',
         // 'password_confirmation' => 'required|same:password',
@@ -31,11 +35,14 @@ class Edit extends Component
 
     public function mount(User $user)
     {
+        $this->roles = Role::all();
         $this->name = $user->name;
         $this->username = $user->username;
+        $this->selected_roles = $user->getRoleNames();
         // $this->password = $user->password;
         // $this->password_confirmation = $user->password;
         $this->status = $user->status ? "true" : "false"; 
+       
     }
 
     public function render()
@@ -65,10 +72,12 @@ class Edit extends Component
 
             $validator->safe()->only(['password_confirmation','password']);
             $this->user->password = $this->password;
-
         }
 
         $this->user->save();
+        $this->user->syncRoles($this->selected_roles);
+
+
         return redirect()->route('users.index');
     }
     

@@ -66,5 +66,10 @@
     "Status": "Estado",
     "Setting": "Configuración",
     "Quote": "Cotizador",
-    "Parameter settings": "Configuración De Parametros"
+    "Parameter settings": "Configuración De Parametros",
+    "Roles": "Perfiles",
+    "Choose the profiles": "Elija los perfiles",
+    "root": "Root",
+    "admin quote": "Admin Cotizador",
+    "quote": "Cotizador"
 }

@@ -28,31 +28,31 @@
 
                     <div>
                         <label for="price_sale" class="block font-medium text-sm text-gray-700">{{ __('Price Sale') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_sale"  wire:model.defer="setting.price_sale"  min="0.1">
+                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_sale"  wire:model.defer="setting.price_sale" min="0.1" step="0.00001">
                         @error('setting.price_sale') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div>
                         <label for="price_kilogram" class="block font-medium text-sm text-gray-700">{{ __('Price Kilogram') }}</label>
-                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_kilogram"  wire:model.defer="setting.price_kilogram">
+                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_kilogram"  wire:model.defer="setting.price_kilogram" min="0.1" step="0.01">
                         @error('setting.price_kilogram') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div>
                         <label for="price_liter" class="block font-medium text-sm text-gray-700">{{ __('Price Liter') }}</label>
-                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_liter"  wire:model.defer="setting.price_liter">
+                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_liter"  wire:model.defer="setting.price_liter" min="0.1" step="0.01">
                         @error('setting.price_liter') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div>
                         <label for="price_disel" class="block font-medium text-sm text-gray-700">{{ __('Price Disel') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_disel"  wire:model.defer="setting.price_disel">
+                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_disel"  wire:model.defer="setting.price_disel" min="0.1" step="0.01">
                         @error('setting.price_disel') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div>
                         <label for="price_event" class="block font-medium text-sm text-gray-700">{{ __('Price Event') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_event"  wire:model.defer="setting.price_event">
+                        <input type="number" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="price_event"  wire:model.defer="setting.price_event" min="0.1" step="0.01">
                         @error('setting.price_event') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 

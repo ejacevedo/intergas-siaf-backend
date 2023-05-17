@@ -67,5 +67,11 @@
     "Status": "Status",
     "Setting": "Setting",
     "Quote": "Quote",
-    "Parameter settings": "Parameter settings"
+    "Parameter settings": "Parameter settings",
+    "Roles": "Roles",
+    "Choose the profiles": "Choose the profiles",
+    "root": "Root",
+    "admin quote": "Admin Quote",
+    "quote": "Quote"
+
 }

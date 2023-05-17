@@ -1,48 +1,64 @@
+<div>
+    <x-slot name="header">
+            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="sm:ml-05">
+                <span>  {{ __('List Users') }} </span>
+            </x-nav-link>
 
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 ">
-                    <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="search" wire:model="search">
-                </div>
+            <x-nav-link :href="route('users.create')" :active="request()->routeIs('users.create')" >
+                <span class="px-4" > {{ __('Create User') }} </span>
+            </x-nav-link>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 ">
+                        <x-text-input id="search" name="search" type="text" class="mt-1 block w-full"   placeholder="{{ __('Search by name or user') }}" wire:model="search"/>
+                    </div>
+            </div>
         </div>
     </div>
-</div>
 
 
-<div class="page-body">
-        
-          
-    <div class="card">
-        <div class="mt-3 card-block table-border-style">
-            <!-- <div wire:loading class="content-loader">
-            </div> -->
-            <div class="table-responsive">
-                
-                <table class="table">
-                    <thead>
-                        <tr>
-                            
-                            <th>id</th>
-                            <th>name</th>
-                            <th>Nivel</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <ul role="list" class="divide-y divide-blue-200">
                         @foreach ($users as $user)
-                            <tr>
-                                <td>{{$user->id}}</td>
-                               
-                               
-                            </tr>
-
+                            <li class="flex justify-between gap-x-6 py-4 border-b border-gray-100">
+                                <div class="flex gap-x-4">
+                                    <div class="min-w-0 flex-auto">
+                                        <p class="text-sm font-semibold leading-6 text-gray-900">{{ $user->name }} - {{ $user->username }}</p>
+                                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">Super Admin - <span class="font-semibold"> {{ $user->status ? __('Active') : __('Inactive') }}</span> </p>
+                                    </div>
+                                </div>
+                                <div class="hidden sm:flex sm:flex-col sm:items-end">
+                                    <a href="{{route('users.edit', $user->id)}}" class="text-sm leading-6 text-gray-900">
+                                        <p>Editar</p>
+                                    </a>
+                                </div>
+                            </li>
                         @endforeach
+                        
+                    
+                    </ul>
 
-                    </tbody>
-                </table>
-                
+                    <!-- <br> -->
+                    <nav aria-label="Page navigation example" class="mt-4">
+                        <ul class="pagination justify-content-center">
+                            {{ $users->links() }}
+                        </ul>
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .page-item.active .page-link {
+    background-color: #061F42;
+    border-color: #061F42;
+}
+</style>

@@ -18,9 +18,9 @@ class Shows extends Component
     public function render()
     {
         $users = User::where('id', '<>',Auth::id())
-        ->when($this->search, function ($query) {
+        ->when($this->search !== '', function ($query) {
             $query->where('name', 'like', "%$this->search%")
-            ->orWhere('username', 'like', "%$$this->search%");
+            ->orWhere('username', 'like', "%$this->search%");
         })
         ->latest()
         ->paginate(5);

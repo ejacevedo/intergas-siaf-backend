@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-
 class AuthController extends Controller
 {
 
@@ -28,10 +27,14 @@ class AuthController extends Controller
                 return response(["message"=>  __('auth.user_inactive')],Response::HTTP_UNAUTHORIZED);
             }
 
+            if(!count($user->roles)) {
+                return response(["message"=>  __('auth.roles_unauthorized')],Response::HTTP_UNAUTHORIZED);
+            }
+
             $token = $user->createToken('token')->plainTextToken;
             return response([
                 'token'=>$token, 
-                'roles' => ['super admin', 'cotizador', 'admin cotizado'] 
+                'roles' => ['root', 'quote', 'admin quotation'] 
             ], Response::HTTP_OK);
 
         } else {
