@@ -15,16 +15,16 @@ class Index extends Component
     use WithPagination;
 
     public $search = '';
-    public $na = 'asdad';
 
     public function render()
-    {
-        $this->na = 'asdsad';
-        $users = User::where('id', '<>',Auth::id())
-        ->when($this->search !== '', function ($query) {
-            $query->where('name', 'like', "%$this->search%")
-            ->orWhere('username', 'like', "%$this->search%");
+    {        
+        $users = User::where('id', '<>',Auth::id())->where(function($query) {
+            $query->when($this->search !== '', function ($query) {
+                $query->where('name', 'like', "%$this->search%")
+                ->orWhere('username', 'like', "%$this->search%");
+            });
         })
+        // ->with('role')
         ->latest()
         ->paginate(5);
         return view('livewire.user.shows', [

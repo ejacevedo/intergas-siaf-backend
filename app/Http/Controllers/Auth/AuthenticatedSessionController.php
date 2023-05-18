@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Validation\ValidationException;
 
+use App\Constants\Roles;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -31,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $user = Auth::guard('web')->user();
 
-        if (!$user->hasAnyRole(['root', 'admin quote'])) {
+        if (!$user->hasAnyRole([Roles::ROOT, Roles::ADMIN_QUOTE])) {
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();

@@ -34,7 +34,7 @@ class AuthController extends Controller
             $token = $user->createToken('token')->plainTextToken;
             return response([
                 'token'=>$token, 
-                'roles' => ['root', 'quote', 'admin quotation'] 
+                'roles' => $user->getRoleNames()
             ], Response::HTTP_OK);
 
         } else {

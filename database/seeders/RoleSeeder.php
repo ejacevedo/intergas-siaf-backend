@@ -6,6 +6,9 @@ namespace Database\Seeders;
 use Spatie\Permission\Models\Role;
 use Illuminate\Database\Seeder;
 
+use App\Constants\Roles;
+
+
 class RoleSeeder extends Seeder
 {
     /**
@@ -16,15 +19,15 @@ class RoleSeeder extends Seeder
     public function run()
     {
         Role::create([
-            "name" => "root",
+            "name" => Roles::ROOT,
         ]);
 
         Role::create([
-            "name" => "admin quote",
+            "name" => Roles::ADMIN_QUOTE,
         ]);
 
         Role::create([
-            "name" => "quote",
+            "name" => Roles::QUOTE,
         ]);
     }
 }
