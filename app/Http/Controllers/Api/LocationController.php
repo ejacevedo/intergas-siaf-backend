@@ -30,10 +30,4 @@ class LocationController extends Controller
         }
     }
 
-    public function create(Request $request) {
-        $location = Location::create($request->all());
-        return response()->json($location, 200);
-    }
-    
-
 }

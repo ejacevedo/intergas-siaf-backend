@@ -102,12 +102,4 @@ class QuoteController extends Controller
             ], 500);
         }
     }
-
-    public function create(Request $request) {
-        $quote = Quote::create($request->all());
-        // $quote =Quote::insert($request->all());
-        return response()->json($quote, 200);
-    }
-
-
 }

@@ -31,7 +31,7 @@ class RouteController extends Controller
         $this->routeRepository = $routeRepository;
     }
 
-    public function new_index(Request $request)
+    public function index(Request $request)
     {
         try {
             $pageNumber = $request->query('page', 200);
@@ -44,44 +44,10 @@ class RouteController extends Controller
             ], 500);
         }
     }
-    
-    public function index(Request $request)
-    {
-        try {
-
-            $routes = Route::when(request('load_address_id'), function ($query) {
-                $query->where('load_address_id', request('load_address_id'));                      
-            })->when(request('unload_address_id'), function ($query) {
-                $query->where('unload_address_id', request('unload_address_id'));                      
-            })->when(request('return_address_id'), function ($query) {
-                $query->where('return_address_id', request('return_address_id'));                      
-            })
-            // ->with('loadAddress','unloadAddress', 'returnAddress')
-            // ->whereHas('loadAddress', function ($query)  {
-            //     $query->where('status', true);
-            // })
-            // ->whereHas('unloadAddress', function ($query)  {
-            //     $query->where('status', true);
-            // })
-            // ->whereHas('returnAddress', function ($query)  {
-            //     $query->where('status', true);
-            // })
-            ->latest()
-            ->paginate();
-            
-            return response()->json($routes , 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => 'delivery_routes.index.failed',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
 
     public function quote(Request $request, QuoteRoute $quoteRoute)
     {
         try {
-
             $request->validate([
                 'load_address_id' => 'required',
                 'unload_address_id' => 'required',
@@ -89,54 +55,37 @@ class RouteController extends Controller
             ]);
 
             $setting =  Setting::get()->first();
-
             if(empty($setting)) {
-                return response(null, 400);
+                throw new ModelNotFoundException(__('Your environment does not have the necessary configuration for quoting'));
             }
 
-             // 'load_address_id',
-            // 'unload_address_id',
-            // 'return_address_id',
+            $perPage = 10;
+            $filters = [
+                'load_address_id' => $request->load_address_id, 
+                'unload_address_id' => $request->unload_address_id,
+                'return_address_id' => $request->return_address_id,
+            ];
 
-            $deliveryRoute = Route::where('load_address_id', $request->input('load_address_id'))
-            ->where('unload_address_id', $request->input('unload_address_id'))
-            ->where('return_address_id', $request->input('return_address_id'))
-            ->with('load_address','unload_address', 'return_address')
-            ->whereHas('load_address', function ($query)  {
-                $query->where('status', true);
-            })
-            ->whereHas('unload_address', function ($query)  {
-                $query->where('status', true);
-            })
-            ->whereHas('return_address', function ($query)  {
-                $query->where('status', true);
-            })
-            ->first();
+            $routes = $this->routeRepository->getAll($perPage, null, $filters);
+            $router = $routes->first();
 
-            if(empty($deliveryRoute)) {
-                throw new ModelNotFoundException(__('Selected locations have no route for quotation'));
+            if(empty($router)) {
+                throw new ModelNotFoundException(__('Selected addresses have no route for quotation'));
             }
             
-            $deliveryRoute['liters'] = $quoteRoute->getLiters($deliveryRoute);
-            $deliveryRoute['cost_travel'] = $quoteRoute->getCostTravel($deliveryRoute);
-            $deliveryRoute['price_sale'] = $quoteRoute->getPriceSale($setting, $deliveryRoute);
-            $deliveryRoute['cost_per_kilogram'] = $quoteRoute->getCostPerKilogram($setting, $deliveryRoute);
-            $deliveryRoute['cost_per_liter'] = $quoteRoute->getCostPerliter($setting, $deliveryRoute);
+            $router['liters'] = $quoteRoute->getLiters($router);
+            $router['cost_travel'] = $quoteRoute->getCostTravel($router);
+            $router['price_sale'] = $quoteRoute->getPriceSale($setting, $router);
+            $router['cost_per_kilogram'] = $quoteRoute->getCostPerKilogram($setting, $router);
+            $router['cost_per_liter'] = $quoteRoute->getCostPerliter($setting, $router);
 
-            return response()->json($deliveryRoute, 200);
+            return response()->json($router, 200);
         } catch (Exception $e) {
             return response()->json([
-                'error' => 'quotes.index.failed',
+                'error' => 'router.index.failed',
                 'message' => $e->getMessage()
-            ], 500);
+            ], 400);
         }
     }
-
-    public function create(Request $request) {
-        $quote = Route::create($request->all());
-        // $quote =Route::insert($request->all());
-        return response()->json($quote, 200);
-    }
-
 
 }

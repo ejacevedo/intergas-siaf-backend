@@ -158,6 +158,7 @@ class Edit extends Component
         $routes_bulk = [];
         foreach($quotes as $key => $value) {
             $routes = $this->getRouteLocations($key, $value['ruta']);
+            $routes_new = $this->getRoutes($key, $value['ruta']);
 
             $replace = ["$",","];
             $values   = ["",""];
@@ -189,9 +190,9 @@ class Edit extends Component
 
             $routes_bulk[] = [
                 'user_id' => Auth::id(),
-                'load_address_id' => $routes[0]->id,
-                'unload_address_id' => $routes[1]->id,
-                'return_address_id' => $routes[2]->id,
+                'load_address_id' => $routes_new[0]->id,
+                'unload_address_id' => $routes_new[1]->id,
+                'return_address_id' => $routes_new[2]->id,
                 'kilometer'=> $kilometer,
                 'cost_tollbooth'=> $cost_tollbooth,
                 'cost_pemex'=> $cost_pemex,
@@ -215,50 +216,6 @@ class Edit extends Component
         }
     }
 
-    private function _processFileQuotes() {
-        try {
-            if($this->file_quotes) {
-
-                $filename = $this->file_quotes->hashName();
-                $path = $this->file_quotes->storeAs('temp_csv', $filename);
-                $this->$path = $path;
-                $csv_data = $this->getDataFromCsv($this->csv_fields_quotes, $path);
-                if(count($csv_data['header']) && count($csv_data['data'])){
-                    // $this->file_quotes_message = 'asdasd';
-                    // throw new \Exception($this->file_quotes_message);
-                    $quotes_bulk = [];
-                    foreach($csv_data['data'] as $key => $value) {
-                        $routes = $this->getRouteLocations($key, $value['ruta']);
-                        $quotes_bulk[] = [
-                            'user_id' => Auth::id(),
-                            'point_a_location_id' => $routes[0]->name,
-                            'point_b_location_id' => $routes[1]->name,
-                            'point_c_location_id' => $routes[2]->name,
-                            'kilometer'=> str_replace(',', '.', $value['km']) ,
-                            'cost_tollbooth'=> str_replace(',', '.', $value['casetas']),
-                            'cost_pemex'=> str_replace(',', '.', $value['pemex']),
-                            'cost_pension'=> str_replace(',', '.', $value['pension']),
-                            'cost_food'=> str_replace(',', '.', $value['comidas']),
-                            'cost_hotel'=> str_replace(',', '.', $value['hotel']),
-                            'created_at' => now(),
-                            'updated_at' => now()
-                            
-                        ];
-                    }
-                   $this->creteQuotesBulk($quotes_bulk);
-                // $this->file_quotes_message = 'asdsadasdsa';
-                   
-                } else {
-                    // $this->file_quotes_message = $csv_data;
-                    $this->file_quotes_message = __('Incorrect csv format.');
-                    throw new \Exception('asdad');
-                }
-            } 
-        } catch(Exception $e) {
-            throw $e;
-        }
-    }
-
     private function getRouteLocations($key, string $routes){
         $rutasArray = explode("-",$routes);
         if(count($rutasArray) !== 3) {
@@ -273,6 +230,29 @@ class Edit extends Component
         $location0 = Location::select('id', 'name')->where('name', $locationName0)->first();
         $location1 = Location::select('id', 'name')->where('name', $locationName1)->first();
         $location2 = ($locationName0 === $locationName2) ? $location0 : Location::select('id', 'name')->where('name', $locationName2)->first();
+        
+        if(empty($location0) || empty($location1) || empty($location2)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => $key + 1]);
+            throw new \Exception($this->file_quotes_message);
+        }
+
+        return [$location0,  $location1,  $location2];
+    }
+
+    private function getRoutes($key, string $routes){
+        $rutasArray = explode("-",$routes);
+        if(count($rutasArray) !== 3) {
+            $this->file_quotes_message = __('incorrect_route_format', ['line' => $key + 1]);
+            throw new \Exception($this->file_quotes_message);
+        }
+        
+        $locationName0 = trim($rutasArray[0]);
+        $locationName1 = trim($rutasArray[1]);
+        $locationName2 = trim($rutasArray[2]);
+
+        $location0 = Address::select('id', 'name')->where('name', $locationName0)->first();
+        $location1 = Address::select('id', 'name')->where('name', $locationName1)->first();
+        $location2 = ($locationName0 === $locationName2) ? $location0 : Address::select('id', 'name')->where('name', $locationName2)->first();
         
         if(empty($location0) || empty($location1) || empty($location2)) {
             $this->file_quotes_message = __('location_not_found', ['line' => $key + 1]);

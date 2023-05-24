@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
+
 class RouteRepository
 {
     public function create(array $data)
@@ -32,7 +33,7 @@ class RouteRepository
         return Route::findOrFail($id);
     }
 
-    public function getAll(int $pagination = 10, int $limit = null, array $filters = [])
+    public function getAll(int $pagination = 10, int $limit = null, array $filters = [], array $search = [])
     {
         $query = QueryBuilder::for(Route::class)
             ->allowedFilters($this->getAllowedFilters())
@@ -41,6 +42,21 @@ class RouteRepository
             
         if ($limit) {
             $query->limit($limit);
+        }
+
+        if (!empty($filters)) {
+            $query->allowedFilters(array_keys($filters));
+            $query->where($filters);
+        }
+
+        if (!empty($search)) {
+            $query->where(function ($query) use ($search) {
+                foreach ($search as $field => $value) {
+                    if(!empty($value)) {
+                        $query->orWhere($field, 'LIKE', "%{$value}%");
+                    }
+                }
+            });
         }
 
         return $query->paginate($pagination);

@@ -65,17 +65,13 @@ class Index extends Component
 
     // public function render()
     // {
-    //     // $users = $this->userRepository->getAll(5, null, );
-
-    //     // // $this->payments = $this->paymentRepository->getAll([
-    //     // //     'search' => $this->searchTerm,
-    //     // // ]);
-
-    //     $users = $this->userRepository->getAll($this->page, null, [
-    //         'search' => $this->search,
+        
+    //     $users = $this->userRepository->getAll($this->page, null, [], [
+    //         'name' => $this->search,
+    //         'username' => $this->search,
     //     ]);
 
-    //     return view('livewire.user.shows', [
+    //     return view('livewire.user.index', [
     //         'users' => $users
     //     ]);
     // }
@@ -91,7 +87,7 @@ class Index extends Component
         // ->with('role')
         ->latest()
         ->paginate(5);
-        return view('livewire.user.shows', [
+        return view('livewire.user.index', [
             'users' => $users
         ]);
     }
