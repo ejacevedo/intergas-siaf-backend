@@ -4,6 +4,7 @@ namespace App\Http\Livewire\User;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
 use Livewire\Component;
 
@@ -36,6 +37,7 @@ class Create extends Component
     {
         $this->validate();
         $this->user->password = $this->password;
+        $this->user->user_id = Auth::id();
         $this->user->save();
 
         $this->user->assignRole($this->selected_roles);

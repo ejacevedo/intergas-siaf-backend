@@ -10,6 +10,8 @@ use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
 
+use Spatie\QueryBuilder\QueryBuilder;
+
 use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable

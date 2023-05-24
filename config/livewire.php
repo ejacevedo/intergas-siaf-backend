@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'manifest_path' => null,
+    'manifest_path' => '/var/www/intergas/bootstrap/cache/livewire-components.php',
 
     /*
     |--------------------------------------------------------------------------

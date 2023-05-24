@@ -15,10 +15,32 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 
+use App\Repositories\UserRepository;
+
 
 class UserController extends Controller
 {
 
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    public function new_index(Request $request)
+    {
+        try {
+            $pageNumber = $request->query('page', 200);
+            $users = $this->userRepository->getAll($pageNumber);
+            return response()->json($users, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'users.index.failed',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function index(Request $request)
     {

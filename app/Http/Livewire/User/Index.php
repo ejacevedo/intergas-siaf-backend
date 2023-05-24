@@ -9,12 +9,76 @@ use App\Models\User;
 
 use Illuminate\Support\Facades\Auth;
 
+use App\Repositories\UserRepository;
 
 class Index extends Component
 {
     use WithPagination;
 
     public $search = '';
+
+    // public $page = 2;
+    // public $perPage = 2;
+    // public $search = '';
+
+    // protected $queryString = [
+    //     'search' => ['except' => ''],
+    //     'page' => ['except' => 10],
+    //     // 'perPage' => ['except' => 10]
+    // ];
+
+    // protected $queryString = [
+    //     'filter' => ['except' => ''],
+    //     // 'filter_status' => ['except' => ''],
+    //     'page' => ['except' => 1],
+    // ];
+
+    public $perPage = 1;
+    public $filter = null;
+
+    protected $queryString = [
+        'filter' => ['except' => ''],
+        'page' => ['except' => '1'],
+    ];
+
+    //  public User $users;
+    // // public $payments;
+
+    protected $userRepository;
+
+    public function mount(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
+    public function resetPage()
+    {
+        $this->page = 1;
+    }
+
+    public function search()
+    {
+        $this->resetPage();
+
+        $this->render();
+    }
+
+    // public function render()
+    // {
+    //     // $users = $this->userRepository->getAll(5, null, );
+
+    //     // // $this->payments = $this->paymentRepository->getAll([
+    //     // //     'search' => $this->searchTerm,
+    //     // // ]);
+
+    //     $users = $this->userRepository->getAll($this->page, null, [
+    //         'search' => $this->search,
+    //     ]);
+
+    //     return view('livewire.user.shows', [
+    //         'users' => $users
+    //     ]);
+    // }
 
     public function render()
     {        

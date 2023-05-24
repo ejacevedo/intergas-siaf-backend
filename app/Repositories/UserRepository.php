@@ -3,6 +3,11 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
+
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 
 class UserRepository
 {
@@ -27,8 +32,44 @@ class UserRepository
         return User::findOrFail($id);
     }
 
-    public function getAll($page, $limit)
+    public function getAll(int $pagination = 10, int $limit = null, array $filters = [])
     {
-        return User::all();
+        $query = QueryBuilder::for(User::class)
+            ->allowedFilters($this->getAllowedFilters())
+            ->defaultSort('-id');
+
+        if (isset($filters['search'])) {
+            $query->where(function ($query) use ($filters) {
+                $searchTerm = $filters['search'];
+                $query->orWhere('name', 'like', "%{$searchTerm}%")
+                    ->orWhere('username', 'like', "%{$searchTerm}%");
+            });
+        }
+
+        if ($limit) {
+            $query->limit($limit);
+        }
+         
+        return $query->paginate($pagination);
+        // return$query->paginate(2, ['*'], 'page', 2);
     }
+
+    private function getAllowedFilters(): array
+    {
+        // $payment = new User();
+        // $columns = $payment->getFillable();
+
+        // return array_map(function ($column) {
+        //     return 'filter[' . $column . ']';
+        // }, $columns);
+
+        $columns = DB::getSchemaBuilder()->getColumnListing('users');
+
+        return array_map(function ($column) {
+            // return 'filter[' . $column . ']';
+            return AllowedFilter::exact($column);
+        }, $columns);
+
+    }
+
 }

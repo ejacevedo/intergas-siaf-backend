@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Setting;
 use App\Models\Setting;
 use App\Models\Location;
 use App\Models\Quote;
-
+use App\Models\Route;
+use App\Models\Address;
 
 use Livewire\Component;
 
@@ -92,7 +93,9 @@ class Edit extends Component
                             'name' => $value['nombre'],
                             'latitude' => $value['latitud'],
                             'longitude' => $value['longitud'],
-                            'user_id' => Auth::id()
+                            'user_id' => Auth::id(),
+                            'created_at' => now(),
+                            'updated_at' => now()
                         ];
                     }
                     $this->creteLocationsBulk($locations_bulk);
@@ -111,6 +114,10 @@ class Edit extends Component
         try {
             Location::whereNotNull('id')->delete();
             Location::insert($locations_bulk);
+
+            Address::whereNotNull('id')->delete();
+            Address::insert($locations_bulk);
+
         } catch (Exception $e) {
             $this->file_locations_message = __('csv_error_create_bulk', [ 'attribute' => __('locations')]);
             throw $e;
@@ -135,8 +142,8 @@ class Edit extends Component
                             $quotes_data[] = $this->buildFormattedItem($this->csv_fields_quotes, $data);
                         }       
                     }
-                    $quotes_bulk = $this->buildQuotesArray($quotes_data);
-                    $this->creteQuotesBulk($quotes_bulk);
+                    [ $quotes_bulk,  $routes_bulk ] = $this->buildQuotesArray($quotes_data);
+                    $this->creteQuotesBulk($quotes_bulk, $routes_bulk);
                    // fclose($handle);
                 }                
             } 
@@ -148,6 +155,7 @@ class Edit extends Component
 
     public function buildQuotesArray($quotes){
         $quotes_bulk = [];
+        $routes_bulk = [];
         foreach($quotes as $key => $value) {
             $routes = $this->getRouteLocations($key, $value['ruta']);
 
@@ -175,10 +183,29 @@ class Edit extends Component
                 'cost_pension'=> $cost_pension,
                 'cost_food'=> $cost_food,
                 'cost_hotel'=> $cost_hotel,
+                'created_at' => now(),
+                'updated_at' => now()
             ];
+
+            $routes_bulk[] = [
+                'user_id' => Auth::id(),
+                'load_address_id' => $routes[0]->id,
+                'unload_address_id' => $routes[1]->id,
+                'return_address_id' => $routes[2]->id,
+                'kilometer'=> $kilometer,
+                'cost_tollbooth'=> $cost_tollbooth,
+                'cost_pemex'=> $cost_pemex,
+                'cost_pension'=> $cost_pension,
+                'cost_food'=> $cost_food,
+                'cost_hotel'=> $cost_hotel,
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
+
+            
         }
 
-        return $quotes_bulk;
+        return [$quotes_bulk, $routes_bulk];
     }
 
     private function getValidationHeaderCsv($headers_quotes, $data){
@@ -213,6 +240,9 @@ class Edit extends Component
                             'cost_pension'=> str_replace(',', '.', $value['pension']),
                             'cost_food'=> str_replace(',', '.', $value['comidas']),
                             'cost_hotel'=> str_replace(',', '.', $value['hotel']),
+                            'created_at' => now(),
+                            'updated_at' => now()
+                            
                         ];
                     }
                    $this->creteQuotesBulk($quotes_bulk);
@@ -252,10 +282,14 @@ class Edit extends Component
         return [$location0,  $location1,  $location2];
     }
 
-    private function creteQuotesBulk($quotes_bulk) {
+    private function creteQuotesBulk($quotes_bulk, $routes_bulk) {
         try {
             Quote::whereNotNull('id')->delete();
-            if(Quote::insert($quotes_bulk));
+            Quote::insert($quotes_bulk);
+
+            Route::whereNotNull('id')->delete();
+            Route::insert($routes_bulk);
+
         } catch (Exception $e) {
             $this->file_locations_message = __('csv_error_create_bulk', [ 'attribute' => __('quotes')]);
             throw $e;
