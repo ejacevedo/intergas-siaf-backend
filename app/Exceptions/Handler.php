@@ -6,6 +6,8 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Exceptions\UnauthorizedException;
+
 // use Illuminate\Auth\Middleware\Authenticate;
 
 // use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -45,7 +47,7 @@ class Handler extends ExceptionHandler
                         'message' => 'External API call failed',
                         'error' => 'Entry for '.str_replace('App', '', $exception->getModel()).' not found'
                     ], 404);
-            } else if($exception instanceof AuthenticationException) {
+            } else if($exception instanceof AuthenticationException || $exception instanceof UnauthorizedException) {
                 return response()->json(['error' => 'Unauthenticated'], 401);
             } else if($exception instanceof ValidationException) {
                 return response()->json(
@@ -53,8 +55,7 @@ class Handler extends ExceptionHandler
                         'message' => 'Validation exception.',  
                         'error' => $exception->getMessage()
                     ],400);
-            }
-            else {
+            } else {
                 return response()->json(
                 [ 
                     'message' => 'External API call failed ',  

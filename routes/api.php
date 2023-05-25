@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\RouteController;
 
+use App\Constants\Roles;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,14 +30,8 @@ use App\Http\Controllers\Api\RouteController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['auth:sanctum']], function(){
-    Route::get('/users', [UserController::class, 'index']);
-    Route::get('/users2', [UserController::class, 'new_index']);
-
-    Route::patch('/users/{id}/roles', [UserController::class, 'updateRoles']);
-    
+Route::group(['middleware' => ['auth:sanctum'] ], function(){
     Route::get('/locations', [LocationController::class, 'index']);
-
     Route::get('/addresses', [AddressController::class, 'index']);
 
     Route::get('/quotes', [QuoteController::class, 'index']);
@@ -47,6 +42,12 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/change_password', [AuthController::class, 'changePassword']);
+});
+
+Route::group(['middleware' => ['auth:sanctum', 'role:'.implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE])]], function () {
+    Route::get('/users', [UserController::class, 'index']);
+    Route::get('/users2', [UserController::class, 'new_index']);
+    Route::patch('/users/{id}/roles', [UserController::class, 'updateRoles']);
 });
 
 Route::fallback(function(){
