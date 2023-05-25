@@ -41,6 +41,16 @@ class AddressRepository
         return$query->paginate($pagination);
     }
 
+    public function clearAll()
+    {
+        return Address::truncate();
+    }
+
+    public function createBulk(array $addresses)
+    {
+        return Address::insert($addresses);
+    }
+
     private function getAllowedFilters(): array
     {
         $columns = DB::getSchemaBuilder()->getColumnListing('addresses');
@@ -48,7 +58,7 @@ class AddressRepository
         return array_map(function ($column) {
             return AllowedFilter::exact($column);
         }, $columns);
-
     }
+
 
 }

@@ -49,7 +49,7 @@
     "User data": "User data",
     "CSV format required." : "CSV format required",
     "Upload file": "Upload file",
-    "Load locations file": "Load locations file",
+    "Load addresses file": "Load locations file",
     "Load file of routing - expenses": "Load file of routing - expenses",
     "I am aware that these changes will affect the cost of the quotation.": "I am aware that these changes will affect the cost of the quotation.",
     "Incorrect csv format.": "Incorrect csv format.",
@@ -72,6 +72,8 @@
     "Choose the profiles": "Choose the profiles",
     "root": "Root",
     "admin quote": "Admin Quote",
-    "quote": "Quote"
+    "quote": "Quote",
+    "Inactive": "Inactive",
+    "Active": "Active"
 
 }

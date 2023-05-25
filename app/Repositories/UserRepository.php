@@ -24,6 +24,12 @@ class UserRepository
         return $user;
     }
 
+    public function updateRoles(User $user, array $roles)
+    {
+        $user->syncRoles($roles);
+        return $user;
+    }
+
     public function delete(User $user)
     {
         $user->delete();
@@ -38,6 +44,7 @@ class UserRepository
     {
         $query = QueryBuilder::for(User::class)
             ->allowedFilters($this->getAllowedFilters())
+            ->allowedIncludes('roles')
             ->defaultSort('-id');
 
         if (isset($filters['search'])) {
@@ -46,6 +53,7 @@ class UserRepository
                 $query->orWhere('name', 'like', "%{$searchTerm}%")
                     ->orWhere('username', 'like', "%{$searchTerm}%");
             });
+            $query->with('roles');
         }
 
         if (!empty($search)) {
@@ -56,6 +64,7 @@ class UserRepository
                     }
                 }
             });
+            $query->with('roles');
         }
 
         if ($limit) {

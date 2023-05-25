@@ -23,12 +23,15 @@ use Exception;
 
 
 use Spatie\Permission\Models\Role;
-
-
+use App\Repositories\AddressRepository;
+use App\Repositories\RouteRepository;
 
 class Edit extends Component
 {
     use WithFileUploads;
+
+    protected $addressRepository;
+    protected $routeRepository;
 
     public Setting $setting;
     public $file_quotes;
@@ -53,12 +56,11 @@ class Edit extends Component
         ];
     }
 
-
     public function mount()
     {
+        // $this->addressRepository = $addressRepository;
         $this->setting =  Setting::get()->first();
         $this->all_roles_except_a_and_b = Role::whereNotIn('name', ['role A', 'role B'])->get();
-
     }
 
     public function save()
@@ -112,11 +114,13 @@ class Edit extends Component
 
     private function creteLocationsBulk($locations_bulk) {
         try {
+
             Location::whereNotNull('id')->delete();
             Location::insert($locations_bulk);
 
-            Address::whereNotNull('id')->delete();
-            Address::insert($locations_bulk);
+            $addressRepository = new AddressRepository();
+            $addressRepository->clearAll();
+            $addressRepository->createBulk($locations_bulk);
 
         } catch (Exception $e) {
             $this->file_locations_message = __('csv_error_create_bulk', [ 'attribute' => __('locations')]);
@@ -267,8 +271,11 @@ class Edit extends Component
             Quote::whereNotNull('id')->delete();
             Quote::insert($quotes_bulk);
 
-            Route::whereNotNull('id')->delete();
-            Route::insert($routes_bulk);
+            $routeRepository = new RouteRepository();
+            $routeRepository->clearAll();
+            $routeRepository->createBulk($routes_bulk);
+            // Route::whereNotNull('id')->delete();
+            // Route::insert($routes_bulk);
 
         } catch (Exception $e) {
             $this->file_locations_message = __('csv_error_create_bulk', [ 'attribute' => __('quotes')]);

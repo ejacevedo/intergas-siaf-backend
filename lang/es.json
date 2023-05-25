@@ -48,7 +48,7 @@
     "User data": "Datos de Usuario",
     "CSV format required." : "Formato CSV requerido.",
     "Upload file": "Cargar archivo",
-    "Load locations file": "Cargar archivo de ubicaciones",
+    "Load addresses file": "Cargar archivo de direcciones",
     "Load file of routing - expenses": "Cargar archivo de rutas y gastos",
     "I am aware that these changes will affect the cost of the quotation.": "Soy consciente que estos cambios afectan los costos de cotización.",
     "Incorrect csv format.": "Formato csv incorrecto.",
@@ -71,5 +71,7 @@
     "Choose the profiles": "Elija los perfiles",
     "root": "Root",
     "admin quote": "Admin Cotizador",
-    "quote": "Cotizador"
+    "quote": "Cotizador",
+    "Inactive": "Inactivo",
+    "Active": "Activo"
 }

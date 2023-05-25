@@ -16,7 +16,7 @@ use Illuminate\Support\Str;
 
 
 use App\Repositories\UserRepository;
-
+use App\Constants\Roles;
 
 class UserController extends Controller
 {
@@ -64,24 +64,25 @@ class UserController extends Controller
         }
     }
 
-    public function create(Request $request) {
-        $user = User::create($request->all());
-        $response = [
-            "token" => $user->createToken('systemWhatsapp')->plainTextToken,
-            "user"  => $user
-        ];
-        return response()->json($response, 200);
-    }
-
-    public function assignRole(Request $request, $id) {
-        // $response = [
-        //     "userId" => $id,
-        //     "data"  => $request->all()
-        // ];
-        return response()->json([
-            'message' => 'Successfully assigned roles'
-        ], 200);
-        // return response()->json($response, 200);
+    public function updateRoles(Request $request, $id) {
+        
+        try {
+            $request->validate([
+                'roles' => 'required|array',
+                'roles.*' => 'string|in:'.implode(',', [Roles::ROOT, Roles::ADMIN_QUOTE, Roles::QUOTE]),
+            ]);
+    
+            $user = $this->userRepository->getById($id);
+            $roles = $request->input('roles');
+            $this->userRepository->updateRoles($user,$roles);
+            return response()->json(['message' => __('Roles updated successfully')]);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'users.index.failed',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+       
     }
 
     

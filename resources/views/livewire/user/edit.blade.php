@@ -52,8 +52,8 @@
                     <div class="mb-4">
                         <label for="roles" class="block font-medium text-sm text-gray-700">{{ __('Status')  }}</label>
                         <select id="roles" class="bg-gray-50 border border-gray-700  text-sm rounded focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" wire:model="status">
-                        <option value="true">{{ __('Activo') }}</option>
-                        <option value="false">{{ __('Inactivo')}}</option>
+                        <option value="true">{{ __('Active') }}</option>
+                        <option value="false">{{ __('Inactive')}}</option>
                         </select>
                     </div>
                     

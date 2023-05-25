@@ -28,9 +28,6 @@ class Edit extends Component
         'name' => 'required|string',
         'username' => 'required|string',
         'selected_roles' => 'required|array',
-        // 'password' => ['required', Password::defaults()],
-        // 'password' => 'required|string',
-        // 'password_confirmation' => 'required|same:password',
     ];
 
     public function mount(User $user)
@@ -39,10 +36,7 @@ class Edit extends Component
         $this->name = $user->name;
         $this->username = $user->username;
         $this->selected_roles = $user->getRoleNames();
-        // $this->password = $user->password;
-        // $this->password_confirmation = $user->password;
         $this->status = $user->status ? "true" : "false"; 
-       
     }
 
     public function render()
@@ -56,8 +50,7 @@ class Edit extends Component
         $this->user->name = $this->name;
         $this->user->username = $this->username;
         $this->user->status = $this->status;
-       
-
+    
         if($this->password || $this->password_confirmation){
 
             $input = [

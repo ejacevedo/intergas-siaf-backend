@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\QuoteController;
 use App\Http\Controllers\Api\LocationController;
@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function(){
     Route::get('/users', [UserController::class, 'index']);
     Route::get('/users2', [UserController::class, 'new_index']);
 
-    Route::patch('/users/{id}/roles', [UserController::class, 'assignRole']);
+    Route::patch('/users/{id}/roles', [UserController::class, 'updateRoles']);
     
     Route::get('/locations', [LocationController::class, 'index']);
 

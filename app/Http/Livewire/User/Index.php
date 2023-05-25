@@ -84,7 +84,7 @@ class Index extends Component
                 ->orWhere('username', 'like', "%$this->search%");
             });
         })
-        // ->with('role')
+        ->with('roles')
         ->latest()
         ->paginate(5);
         return view('livewire.user.index', [

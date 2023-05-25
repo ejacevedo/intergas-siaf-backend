@@ -75,5 +75,14 @@ class RouteRepository
         return $response;
 
     }
+    
+    public function clearAll()
+    {
+        return Route::truncate();
+    }
 
+    public function createBulk(array $routes)
+    {
+        return Route::insert($routes);
+    }
 }

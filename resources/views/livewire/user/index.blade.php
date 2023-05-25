@@ -31,7 +31,12 @@
                                 <div class="flex gap-x-4">
                                     <div class="min-w-0 flex-auto">
                                         <p class="text-sm font-semibold leading-6 text-gray-900">{{ $user->name }} - {{ $user->username }}</p>
-                                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">Super Admin - <span class="font-semibold"> {{ $user->status ? __('Active') : __('Inactive') }}</span> </p>
+                                        <p class="mt-1 truncate text-xs leading-5 text-gray-500">
+                                            <span class="font-semibold"> {{ __('Status')}}: {{ $user->status ? __('Active') : __('Inactive') }}</span> 
+                                            @foreach ($user->roles as $role)
+                                            | {{ __($role->name) }}  
+                                            @endforeach
+                                            </p> 
                                     </div>
                                 </div>
                                 <div class="hidden sm:flex sm:flex-col sm:items-end">

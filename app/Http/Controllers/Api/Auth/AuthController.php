@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -33,8 +33,8 @@ class AuthController extends Controller
 
             $token = $user->createToken('token')->plainTextToken;
             return response([
-                'token'=>$token, 
-                'roles' => $user->getRoleNames()
+                'token'=> $token, 
+                'user' => $user
             ], Response::HTTP_OK);
 
         } else {
