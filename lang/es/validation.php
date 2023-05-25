@@ -181,7 +181,19 @@ return [
 
     'attributes' => [
         'username' => 'usuario',
-        'selected_roles' => 'perfiles'
+        'selected_roles' => 'perfiles',
+        'name' => 'nombre',
+        'password' => 'contraseña',
+        'status' => 'estado',
+        'password_confirmation' => 'confirmar contraseña',
+        'search' => 'buscar',
+        'file_quotes' => 'archivo cotizaciones',
+        'file_locations' => 'archivo ubicaciones',
+        'price_sale' => 'precio venta',
+        'price_kilogram' => 'precio kilogramo',
+        'price_liter' => 'precio litro',
+        'price_disel' => 'precio diesel',
+        'price_event' => 'precio evento',
     ],
 
 ];

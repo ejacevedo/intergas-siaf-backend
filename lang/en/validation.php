@@ -181,7 +181,20 @@ return [
 
     'attributes' => [
         'username' => 'username',
-        'selected_roles' => 'perfiles'
+        'selected_roles' => 'roles',
+        'name' => 'name',
+        'password' => 'password',
+        'status' => 'status',
+        'password_confirmation' => 'password_confirmation',
+        'status' => 'status',
+        'search' => 'search',
+        'file_quotes' => 'file_quotes',
+        'file_locations' => 'file_locations',
+        'price_sale' => 'price_sale',
+        'price_kilogram' => 'price_kilogram',
+        'price_liter' => 'price_liter',
+        'price_disel' => 'price_disel',
+        'price_event' => 'price_event'
     ],
 
 ];
