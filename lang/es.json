@@ -73,5 +73,7 @@
     "admin quote": "Admin Cotizador",
     "quote": "Cotizador",
     "Inactive": "Inactivo",
-    "Active": "Activo"
+    "Active": "Activo",
+    "placeholder_username": "Ingrese su nombre de usuario",
+    "placeholder_password": "Ingresar su contraseña"
 }

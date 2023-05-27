@@ -1,7 +1,7 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
+        <div class="flex justify-between h-nav-top">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
@@ -13,14 +13,14 @@
              
                 @hasrole('root')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create')">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create')" class="border-orange-400 text-base">
                         {{ __('Users') }}
                     </x-nav-link>
                 </div>
                 @endhasrole
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')">
+                    <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')" class="text-base">
                     {{ __('Quote') }}
                     </x-nav-link>
                 </div>

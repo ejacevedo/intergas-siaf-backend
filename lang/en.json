@@ -74,6 +74,8 @@
     "admin quote": "Admin Quote",
     "quote": "Quote",
     "Inactive": "Inactive",
-    "Active": "Active"
+    "Active": "Active",
+    "placeholder_username": "Enter your username",
+    "placeholder_password": "Enter your password"
 
 }

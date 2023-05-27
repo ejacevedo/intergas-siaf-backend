@@ -103,7 +103,7 @@
                     </div>
 
                     <div class="flex items-center gap-4">
-                        <x-primary-button>{{ __('Save') }}</x-primary-button>
+                        <x-primary-button class="bg-orange hover:bg-orange-700 focus:bg-orange-700 active:bg-orange-900">{{ __('Save') }}</x-primary-button>
 
                         @if (session('status') === 'updated')
                             <p

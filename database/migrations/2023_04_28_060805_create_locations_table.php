@@ -18,7 +18,7 @@ return new class extends Migration
             $table->decimal('longitude', 11, 8);
             $table->boolean('status')->default(true);
             $table->bigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            // $table->foreign('user_id')->references('id')->on('users');
             $table->unique(['latitude', 'longitude']);
             $table->index('name');
             $table->timestamps();
