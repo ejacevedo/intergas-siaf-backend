@@ -10,30 +10,32 @@
                     </a>
                 </div>
 
-             
+            
+            </div>
+
+            <!-- Settings Dropdown -->
+            <div class="hidden sm:flex sm:items-center sm:ml-6">
+                 
                 @hasrole('root')
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create')" class="border-orange-400 text-base">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-6 sm:flex">
+                    <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create')">
                         {{ __('Users') }}
                     </x-nav-link>
                 </div>
                 @endhasrole
 
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')" class="text-base">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-6 sm:flex">
+                    <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')">
                     {{ __('Quote') }}
                     </x-nav-link>
                 </div>
-            </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
+                        <button class="sm:ml-6 inline-flex items-center px-3 py-2 border-transparent dropdown-bf text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <div class="text-orange-900 font-semibold uppercase">{{ Auth::user()->name }}</div>
 
-                            <div class="ml-1">
+                            <div class="ml-1 text-orange-900">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                                 </svg>

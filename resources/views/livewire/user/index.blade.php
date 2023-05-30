@@ -1,29 +1,41 @@
 <div>
-    <x-slot name="header">
-            <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')" class="sm:ml-05">
-                <span>  {{ __('List Users') }} </span>
-            </x-nav-link>
-
-            <x-nav-link :href="route('users.create')" :active="request()->routeIs('users.create')" >
-                <!-- <span class="px-4" > {{ __('Create User') }} </span> -->
-                <span class="px-4" > {{ __('Create User') }} </span>
-            </x-nav-link>
-    </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 ">
-                        <x-text-input id="search" name="search" type="text" class="mt-1 block w-full"   placeholder="{{ __('Search by name or user') }}" wire:model="search"/>
-                    </div>
+
+            
+        
+       
+            <div class="relative">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </div>
+                <input type="search" id="default-search" class="mt-1 block w-full shadow p-4 pl-10 text-gray-900 border border-gray-300 rounded-lg sm:text-md focus:ring-blue-500 focus:border-blue-500 "  placeholder="{{ __('Search by name or user') }}" wire:model="search"d>
+                <!-- <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 ">Search</button> -->
             </div>
+        <!-- </form> -->
+<!-- 
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /> </svg>
+            <input type="text" name="search" id="search" class="mt-1 block w-full shadow block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500"  placeholder="{{ __('Search by name or user') }}" wire:model="search"> -->
+        
+            <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                    <div class="p-6 ">
+                        <input type="text" name="search" id="search" class="mt-1 block w-full shadow block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500"  placeholder="{{ __('Search by name or user') }}" wire:model="search">
+                    </div>
+            </div> -->
         </div>
+
+        <!-- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /> </svg>
+            <input type="text" name="search" id="search" class="mt-1 block w-full shadow block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500"  placeholder="{{ __('Search by name or user') }}" wire:model="search">
+        
+        </div> -->
     </div>
 
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+            <div class="bg-white overflow-hidden shadow sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <ul role="list" class="divide-y divide-blue-200">
                         @foreach ($users as $user)

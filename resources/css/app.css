@@ -25,3 +25,26 @@
 .h-nav-top {
     height: 5em;
 }
+
+
+.bg-fe {
+    background-color: #fefefe;
+}
+
+.h-nav-top .item {
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+    border-radius: 5px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+.h-nav-top .item:focus, .h-nav-top .item:hover {
+    background-color: whitesmoke;
+}
+
+.h-nav-top .dropdown-bf {
+    border-left: 0.24em solid red;
+    border-radius: 0px;
+}
+

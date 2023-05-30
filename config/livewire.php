@@ -122,7 +122,7 @@ return [
     |
     */
 
-    'manifest_path' => '/Users/emanuelacevedo/Projects/intergas/siaf-backend/bootstrap/cache/livewire-components.php',
+    'manifest_path' => '/var/www/intergas/bootstrap/cache/livewire-components.php',
 
     /*
     |--------------------------------------------------------------------------

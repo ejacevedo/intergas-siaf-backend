@@ -3,7 +3,6 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\User\Index as UserIndex;
-use App\Http\Livewire\User\Shows as UserShows;
 use App\Http\Livewire\User\Edit as UserEdit;
 use App\Http\Livewire\User\Create as UserCreate;
 
@@ -58,7 +57,6 @@ Route::get('/dashboard', function () {
 
 Route::group(['middleware' => ['role:'.Roles::ROOT]], function () {
     Route::get('/users', UserIndex::class)->name('users.index');
-    Route::get('/users/shows', UserShows::class)->name('users.show');
     Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
     Route::get('/users/create', UserCreate::class)->name('users.create');
     Route::get('/settings', SettingEdit::class)->name('settings.edit');

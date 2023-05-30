@@ -49,7 +49,7 @@ class Edit extends Component
 
         $this->user->name = $this->name;
         $this->user->username = $this->username;
-        $this->user->status = $this->status;
+        $this->user->status = $this->status == "true" ? true:false;
     
         if($this->password || $this->password_confirmation){
 
