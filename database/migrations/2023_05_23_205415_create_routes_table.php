@@ -23,9 +23,9 @@ return new class extends Migration
             $table->decimal('cost_pension', 8, 2)->default(0);
             $table->decimal('cost_food', 8, 2)->default(0);
             $table->decimal('cost_hotel', 8, 2)->default(0);
-            // $table->foreign('user_id')->references('id')->on('users');
-            // $table->unique(['load_address_id', 'unload_address_id', 'return_address_id']);
-            // $table->index(['load_address_id', 'unload_address_id', 'return_address_id']);
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unique(['load_address_id', 'unload_address_id', 'return_address_id']);
+            $table->index(['load_address_id', 'unload_address_id', 'return_address_id']);
             $table->timestamps();
         });
     }
