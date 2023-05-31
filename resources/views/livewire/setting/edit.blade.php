@@ -34,7 +34,7 @@
                     <div>
                         <div class="relative">
                             <input autocomplete="nope" type="number" id="price_kilogram"  class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " wire:model.defer="setting.price_kilogram" min="0.1" step="0.01" />
-                            <label for="price_kilogram" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Price Kilogram') }}</label>
+                            <label for="price_kilogram" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Load capacity per kilogram') }}</label>
                         </div>
                         @error('setting.price_kilogram') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
