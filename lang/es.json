@@ -75,5 +75,8 @@
     "Inactive": "Inactivo",
     "Active": "Activo",
     "placeholder_username": "Ingrese su nombre de usuario",
-    "placeholder_password": "Ingresar su contraseña"
+    "placeholder_password": "Ingresar su contraseña",
+    "no_results_found": "No se han encontrado resultados",
+    "no_results_found_detail": "No podemos encontrar nada con término <strong> *:attribute* </strong> en este momento, intente buscar otro.",
+    "Quotation parameters" : "Parámetros de Cotización"
 }

@@ -76,6 +76,8 @@
     "Inactive": "Inactive",
     "Active": "Active",
     "placeholder_username": "Enter your username",
-    "placeholder_password": "Enter your password"
-
+    "placeholder_password": "Enter your password",
+    "no_results_found": "No results found",
+    "no_results_found_detail": "We can't find anything with the term <strong> *:attribute* </strong> at the moment, try searching for something else.",
+    "Quotation parameters" : "Quotation Parameters"
 }

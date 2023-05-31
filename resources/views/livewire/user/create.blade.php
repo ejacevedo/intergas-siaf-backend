@@ -15,64 +15,68 @@
                     </p>
                 </header>
 
-                <form wire:submit.prevent="save" class="mt-6 space-y-6">
+                <form wire:submit.prevent="save" class="mt-6 space-y-6" autocomplete="nope">
                     @csrf
                     @method('patch')
 
-                    <!-- <div class="mb-4">
-                        <label for="name" class="block font-medium text-sm text-gray-700">{{ __('Name') }}</label>
-                        <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name"  wire:model.defer="user.name">
-                        @error('user.name') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                    </div> -->
-
                     <div>
-                        <label for="name" class="block font-medium text-sm text-gray-700">{{ __('Name') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="name"  wire:model.defer="user.name">
-                        @error('user.name') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                    </div>
-                    
-
-                    <div>
-                        <label for="username" class="block font-medium text-sm text-gray-700">{{ __('Username') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="username"  wire:model.defer="user.username">
-                        @error('user.username') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                    </div>        
-
-                    <div>
-                        <label for="password" class="block font-medium text-sm text-gray-700">{{ __('Password') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="password" wire:model.defer="password">
-                        @error('password') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        <div class="relative">
+                            <input autocomplete="nope" type="text" id="username" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="name"  wire:model.defer="user.name"/>
+                            <label for="username" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Name') }}</label>
+                        </div>
+                        @error('user.name') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div>
-                        <label for="password_confirmation" class="block font-medium text-sm text-gray-700">{{ __('Confirm Password') }}</label>
-                        <input type="text" class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm mt-1 block w-full" id="password_confirmation"  wire:model.defer="password_confirmation">
-                        @error('password_confirmation') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                    </div>
-
-                    
-
-                    <div>
-                        <label for="roles" class="block font-medium text-sm text-gray-700">{{ __('Roles')  }}</label>
-                        <select multiple id="roles" class="border border-gray-300 text-sm rounded focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full" wire:model.defer="selected_roles">
-                            @foreach ($roles as $role)
-                                <option value="{{$role->name}}"> {{ __( $role->name) }}</option>
-                            @endforeach
-                        </select>
-                        @error('selected_roles') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        <div class="relative">
+                            <input type="text" id="username" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="username"  wire:model.defer="user.username" />
+                            <label for="username" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Username') }}</label>
+                        </div>
+                        @error('user.username') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
                     <div>
-                        <label for="status" class="block font-medium text-sm text-gray-700">{{ __('Status')  }}</label>
-                        <select id="status" class="border border-gray-300 text-sm rounded focus:ring-blue-500 focus:border-blue-500 mt-1 block w-full"  wire:model.defer="user.status">
-                        <option value="true">{{ __('Activo') }}</option>
-                        <option value="false">{{ __('Inactivo')}}</option>
-                        </select>
-                        @error('user.status') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        <div class="relative">
+                            <input type="password" id="password" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" "id="password" wire:model.defer="password" />
+                            <label for="password" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Password') }}</label>
+                        </div>
+                        @error('password') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
-                
+
+                    <div>
+                        <div class="relative">
+                            <input type="password" id="password_confirmation" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder="" id="password_confirmation"  wire:model.defer="password_confirmation" />
+                            <label for="password_confirmation" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Confirm Password') }}</label>
+                        </div>
+                        @error('password_confirmation') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                    </div>
+
+                    <div>
+                        <div class="relative">
+                            <select multiple id="roles" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" wire:model.defer="selected_roles">
+                                @foreach ($roles as $role)
+                                    <option value="{{$role->name}}"> {{ __( $role->name) }}</option>
+                                @endforeach
+                            </select>
+                            <label for="roles" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Roles')  }}</label>
+                        </div>
+                        @error('selected_roles') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                    </div>
+
+
+                    <div>
+                        <div class="relative">
+                            <select id="status" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"  wire:model.defer="user.status">
+                                <option value="true">{{ __('Activo') }}</option>
+                                <option value="false">{{ __('Inactivo')}}</option>
+                            </select>
+                            <label for="status" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Status')  }}</label>
+                        </div>
+                        @error('user.status') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                    </div>
+
                     <div class="flex items-center gap-4">
-                        <x-primary-button class="bg-orange hover:bg-orange-700 focus:bg-orange-700 active:bg-orange-900">{{ __('Save') }}</x-primary-button>
+                        <x-primary-button class="nline-flex items-center py-2 bg-orange border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-orange-700 focus:bg-orange-700 active:bg-orange-900 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition ease-in-out duration-150 primay py-3.5">{{ __('Save') }}</x-primary-button>
                     </div>
                 </form>
             </div>

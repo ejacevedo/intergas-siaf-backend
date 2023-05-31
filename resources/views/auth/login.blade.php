@@ -14,8 +14,7 @@
             <x-input-label for="username" :value="__('Username')" />
             <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
         </div> -->
-
-
+        
         <div class="mb-6">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">{{ __('Username') }}</label>
             <input type="text" id="username" class="shadow-sm block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500" id="username" type="text" name="username" required="required" autofocus="autofocus" autocomplete="username" placeholder="{{ __('placeholder_username') }}"  required autofocus autocomplete="username">

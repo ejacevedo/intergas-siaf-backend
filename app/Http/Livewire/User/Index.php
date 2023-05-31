@@ -79,9 +79,9 @@ class Index extends Component
     public function render()
     {        
         $users = User::where('id', '<>',Auth::id())->where(function($query) {
-            $query->when($this->search !== '', function ($query) {
-                $query->where('name', 'like', "%$this->search%")
-                ->orWhere('username', 'like', "%$this->search%");
+            $query->when($this->filter !== '', function ($query) {
+                $query->where('name', 'like', "%$this->filter%")
+                ->orWhere('username', 'like', "%$this->filter%");
             });
         })
         ->with('roles')
