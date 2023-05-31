@@ -61,7 +61,7 @@
                                             </p> 
                                     </div>
                                 </div>
-                                <div class="hidden sm:flex sm:flex-col sm:items-end">
+                                <div class="sm:flex sm:flex-col sm:items-end">
                                     <a href="{{route('users.edit', $user->id)}}" class="text-sm leading-6 text-gray-900">
                                         <p class="font-semibold text-gray-600 underline">Editar</p>
                                     </a>
