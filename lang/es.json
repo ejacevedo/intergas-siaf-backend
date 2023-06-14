@@ -56,7 +56,7 @@
     "locations": "ubicaciones",
     "quotes": "cotizaciones",
     "incorrect_route_format": "Formato de ruta incorrecto - Linea :line.",
-    "location_not_found": "Ubicación no encontrada - Linea :line.",
+    "address_not_found": "Ubicación no encontrada - Nombre de la dirección :name  - Linea :line.",
     "csv_format": "CSV Formato",
     "Price Sale": "Precio Venta",
     "Price Kilogram": "Precio x Kilogramo",

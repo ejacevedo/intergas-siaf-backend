@@ -34,14 +34,13 @@ class Edit extends Component
     protected $routeRepository;
 
     public Setting $setting;
-    public $file_quotes;
-    public $file_locations;
+    public $file_routes;
+    public $file_addresses;
     public $path;
-    public array $csv_fields_locations =  ['nombre', 'latitud', 'longitud'];
-    public array $csv_fields_quotes =  ['ruta', 'km', 'lts', 'casetas', 'pemex', 'pension', 'comidas', 'hotel'];
-    public string $file_locations_message;
-    public string $file_quotes_message;
-    public $all_roles_except_a_and_b;
+    public array $csv_fields_addresses =  ['nombre', 'latitud', 'longitud'];
+    public array $csv_fields_routes =  ['ruta', 'km', 'lts', 'casetas', 'pemex', 'pension', 'comidas', 'hotel'];
+    public string $file_addresses_message; 
+    public string $file_routes_message;
 
     protected function rules()
     {
@@ -52,8 +51,8 @@ class Edit extends Component
             'setting.load_capacity_per_liter' => 'required|numeric',
             'setting.price_disel' => 'required|numeric',
             'setting.price_event' => 'required|numeric',
-            'file_locations' => ['nullable',  File::types(['csv'])],
-            'file_quotes' => ['nullable',  File::types(['csv'])]
+            'file_addresses' => ['nullable',  File::types(['csv'])],
+            'file_routes' => ['nullable',  File::types(['csv'])]
         ];
     }
 
@@ -62,7 +61,6 @@ class Edit extends Component
         // $this->addressRepository = $addressRepository;
         $this->setting =  Setting::get()->first();
         $this->calcLoadCapacityPerLiter();
-        $this->all_roles_except_a_and_b = Role::whereNotIn('name', ['role A', 'role B'])->get();
     }
 
     public function save()
@@ -70,7 +68,7 @@ class Edit extends Component
         $this->validate();
         try {
             DB::beginTransaction();
-            $this->processFileLocations();
+            $this->processFileAddresses();
             $this->processFileQuotes();
             $this->calcLoadCapacityPerLiter();
             $this->setting->save();
@@ -78,6 +76,7 @@ class Edit extends Component
             return Redirect::route('settings.edit')->with('status', 'updated');
         } catch (Exception $e) { 
             DB::rollback();
+            $this->file_routes_message = $e->getMessage();
             return;
             // return Redirect::route('settings.edit')->with('status', 'updated');
         }    
@@ -87,18 +86,18 @@ class Edit extends Component
         $this->setting->load_capacity_per_liter = round($this->setting->load_capacity_per_kilogram / $this->setting->density,2);
     }
 
-    private function processFileLocations() {
+    private function processFileAddresses() {
         try {
-            if($this->file_locations) {
-                $filename = $this->file_locations->hashName();
-                $path = $this->file_locations->storeAs('temp_csv', $filename);
+            if($this->file_addresses) {
+                $filename = $this->file_addresses->hashName();
+                $path = $this->file_addresses->storeAs('temp_csv', $filename);
                 $this->$path = $path;
 
-                $csv_data = $this->getDataFromCsv($this->csv_fields_locations, $path);
+                $csv_data = $this->getDataFromCsv($this->csv_fields_addresses, $path);
                 if(count($csv_data['header']) && count($csv_data['data'])) {
-                    $locations_bulk = [];
+                    $addresses_bulk = [];
                     foreach($csv_data['data'] as $key => $value) {
-                        $locations_bulk[] = [
+                        $addresses_bulk[] = [
                             'name' => $value['nombre'],
                             'latitude' => $value['latitud'],
                             'longitude' => $value['longitud'],
@@ -107,10 +106,10 @@ class Edit extends Component
                             'updated_at' => now()
                         ];
                     }
-                    $this->creteLocationsBulk($locations_bulk);
+                    $this->createAddressesBulk($addresses_bulk);
                 } else {
-                    $this->file_locations_message = __('Incorrect csv format.');
-                    throw new \Exception($this->file_locations_message);
+                    $this->file_addresses_message = __('Incorrect csv format.');
+                    throw new \Exception($this->file_addresses_message);
                 }
             } 
         } catch (Exception $e) { 
@@ -119,26 +118,23 @@ class Edit extends Component
         
     }
 
-    private function creteLocationsBulk($locations_bulk) {
+    private function createAddressesBulk($addresses_bulk) {
         try {
-
-            Location::whereNotNull('id')->delete();
-            Location::insert($locations_bulk);
 
             $addressRepository = new AddressRepository();
             $addressRepository->clearAll();
-            $addressRepository->createBulk($locations_bulk);
+            $addressRepository->createBulk($addresses_bulk);
 
         } catch (Exception $e) {
-            $this->file_locations_message = __('csv_error_create_bulk', [ 'attribute' => __('locations')]);
+            $this->file_addresses_message = __('csv_error_create_bulk', [ 'attribute' => __('locations')]);
             throw $e;
         }
     }
 
     private function processFileQuotes() {
         try {
-            if($this->file_quotes) {
-                $file_path = $this->file_quotes->path();
+            if($this->file_routes) {
+                $file_path = $this->file_routes->path();
                 $line = 0;
                 $quotes_data = [];
                 if (($handle = fopen($file_path, "r")) !== FALSE) {
@@ -146,20 +142,20 @@ class Edit extends Component
                         $line++;
 
                         if($line === 1 ) {
-                            $this->getValidationHeaderCsv($this->csv_fields_quotes, $data);
+                            $this->getValidationHeaderCsv($this->csv_fields_routes, $data);
                         }  
                         else
                         {
-                            $quotes_data[] = $this->buildFormattedItem($this->csv_fields_quotes, $data);
+                            $quotes_data[] = $this->buildFormattedItem($this->csv_fields_routes, $data);
                         }       
                     }
-                    [ $quotes_bulk,  $routes_bulk ] = $this->buildQuotesArray($quotes_data);
-                    $this->creteQuotesBulk($quotes_bulk, $routes_bulk);
+                    $routes_bulk = $this->buildQuotesArray($quotes_data);
+                    $this->creteQuotesBulk($routes_bulk);
                    // fclose($handle);
                 }                
             } 
         } catch(Exception $e) {
-            $this->file_quotes_message = $e->getMessage();
+            $this->file_routes_message = $e->getMessage();
             throw $e;
         }
     }
@@ -168,12 +164,10 @@ class Edit extends Component
         $quotes_bulk = [];
         $routes_bulk = [];
         foreach($quotes as $key => $value) {
-            $routes = $this->getRouteLocations($key, $value['ruta']);
-            $routes_new = $this->getRoutes($key, $value['ruta']);
+            $routes = $this->getRoutes($key, $value['ruta']);
 
             $replace = ["$"];
             $values   = [""];
-
 
             $kilometer = str_replace($replace, $values, $value['km']);
             $cost_tollbooth = str_replace($replace, $values, $value['casetas']);
@@ -182,26 +176,12 @@ class Edit extends Component
             $cost_food = str_replace($replace, $values, $value['comidas']);
             $cost_hotel = str_replace($replace, $values, $value['hotel']);
 
-            $quotes_bulk[] = [
-                'user_id' => Auth::id(),
-                'point_a_location_id' => $routes[0]->id,
-                'point_b_location_id' => $routes[1]->id,
-                'point_c_location_id' => $routes[2]->id,
-                'kilometer'=> $kilometer,
-                'cost_tollbooth'=> $cost_tollbooth,
-                'cost_pemex'=> $cost_pemex,
-                'cost_pension'=> $cost_pension,
-                'cost_food'=> $cost_food,
-                'cost_hotel'=> $cost_hotel,
-                'created_at' => now(),
-                'updated_at' => now()     
-            ];
 
             $routes_bulk[] = [
                 'user_id' => Auth::id(),
-                'load_address_id' => $routes_new[0]->id,
-                'unload_address_id' => $routes_new[1]->id,
-                'return_address_id' => $routes_new[2]->id,
+                'load_address_id' => $routes[0]->id,
+                'unload_address_id' => $routes[1]->id,
+                'return_address_id' => $routes[2]->id,
                 'kilometer'=> $kilometer,
                 'cost_tollbooth'=> $cost_tollbooth,
                 'cost_pemex'=> $cost_pemex,
@@ -216,58 +196,22 @@ class Edit extends Component
 
         // throw new \Exception(json_encode([ 'quotes_bulk' => $quotes_bulk, 'routes_bulk' => $routes_bulk]));
 
-        return [$quotes_bulk, $routes_bulk];
+        return $routes_bulk;
     }
 
-    private function getValidationHeaderCsv($headers_quotes, $data){
+    private function getValidationHeaderCsv($headers_quotes, $data) {
         $csv_header = array_map('strtolower',$data);
         if($headers_quotes != $csv_header) {
             throw new \Exception(__('Incorrect csv format.'));
         }
     }
 
-    private function getRouteLocations($key, string $routes){
+    private function getRoutes($key, string $routes) {
         $line = $key + 2;
         $rutasArray = explode("-",$routes);
         if(count($rutasArray) !== 3) {
-            $this->file_quotes_message = __('incorrect_route_format', ['line' => $key + 1]);
-            throw new \Exception($this->file_quotes_message);
-        }
-        
-        $locationName0 = trim($rutasArray[0]);
-        $locationName1 = trim($rutasArray[1]);
-        $locationName2 = trim($rutasArray[2]);
-
-        $location0 = Location::select('id', 'name')->where('name', $locationName0)->first();
-        $location1 = Location::select('id', 'name')->where('name', $locationName1)->first();
-        $location2 = ($locationName0 === $locationName2) ? $location0 : Location::select('id', 'name')->where('name', $locationName2)->first();
-
-        if(empty($location0)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName0} no encontrada" ]);
-            throw new \Exception($this->file_quotes_message);
-        }
-
-        if(empty($location1)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName1} no encontrada" ]);
-            throw new \Exception($this->file_quotes_message);
-        }
-
-        if(empty($location2)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName2} no encontrada" ]);
-            throw new \Exception($this->file_quotes_message);
-        }
-
-        return [$location0,  $location1,  $location2];
-    }
-
-    
-
-    private function getRoutes($key, string $routes){
-        $line = $key + 2;
-        $rutasArray = explode("-",$routes);
-        if(count($rutasArray) !== 3) {
-            $this->file_quotes_message = __('incorrect_route_format', ['line' => $key + 1]);
-            throw new \Exception($this->file_quotes_message);
+            $this->file_routes_message = __('incorrect_route_format', ['line' => $key + 1]);
+            throw new \Exception($this->file_routes_message);
         }
     
         $locationName0 = trim($rutasArray[0]);
@@ -279,37 +223,32 @@ class Edit extends Component
         $location2 = ($locationName0 === $locationName2) ? $location0 : Address::select('id', 'name')->where('name', $locationName2)->first();
         
         if(empty($location0)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName0} no encontrada" ]);
-            throw new \Exception($this->file_quotes_message);
+            $this->file_routes_message = __('address_not_found', [ 'name' => $locationName0, 'line' => $line ]);
+            throw new \Exception($this->file_routes_message);
         }
 
         if(empty($location1)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName1} no encontrada" ]);
-            throw new \Exception($this->file_quotes_message);
+            $this->file_routes_message = __('address_not_found', [ 'name' => $locationName0, 'line' => $line  ]);
+            throw new \Exception($this->file_routes_message);
         }
 
         if(empty($location2)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName2} no encontrada" ]);
-            throw new \Exception($this->file_quotes_message);
+            $this->file_routes_message = __('address_not_found', [ 'name' => $locationName0, 'line' => $line ]);
+            throw new \Exception($this->file_routes_message);
         }
 
         return [$location0,  $location1,  $location2];
     }
 
-    private function creteQuotesBulk($quotes_bulk, $routes_bulk) {
+    private function creteQuotesBulk($routes_bulk) {
         try {
-            
-            Quote::whereNotNull('id')->delete();
-            Quote::insert($quotes_bulk);
 
             $routeRepository = new RouteRepository();
             $routeRepository->clearAll();
             $routeRepository->createBulk($routes_bulk);
-            // Route::whereNotNull('id')->delete();
-            // Route::insert($routes_bulk);
 
         } catch (Exception $e) {
-            $this->file_locations_message = __('csv_error_create_bulk', [ 'attribute' => __('quotes')]);
+            $this->file_addresses_message = __('csv_error_create_bulk', [ 'attribute' => __('routes')]);
             throw $e;
         }
     }
@@ -346,16 +285,16 @@ class Edit extends Component
                     }
                 }
                 array_pop($csv_format);
-                // $this->file_quotes_message = 'kghsdfdfs';
+                // $this->file_routes_message = 'kghsdfdfs';
                 return [ 'header' =>  $keys, 'data' => $csv_format ];
                 //  return [ 'header' =>  [], 'data' => [], 'keys' => $keys];
             } else {
                 // // array_pop($csv_array);
-                // $this->file_quotes_message = '675465324';
+                // $this->file_routes_message = '675465324';
                 return [ 'header' =>  [], 'data' => []];
             }
         } catch (Exception $e) {
-            // $this->file_quotes_message = $e->getMessage();
+            // $this->file_routes_message = $e->getMessage();
             throw $e;
         }
     }
@@ -381,6 +320,11 @@ class Edit extends Component
        
         // Location::where('name', $rutasArray[0])->first();
         // Location::where('name', $rutasArray[0])->first();
+
+        // $addressRepository = new AddressRepository();
+        // $addressRepository->clearAll();
+        // $addressRepository->createBulk($addresses_bulk);
+
         return view('livewire.setting.edit');
     }
 }

@@ -57,7 +57,7 @@
     "locations": "locations",
     "quotes": "quotes",
     "incorrect_route_format": "Incorrect route format - Line :line.",
-    "location_not_found": "Location not found - Line :line.",
+    "address_not_found": "Address not found - Address name :name  - Line :line.",
     "csv_format": "CSV Format",
     "Price Sale": "Price Sale",
     "Price Kilogram": "Price Per kilogram",

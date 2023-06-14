@@ -2,10 +2,6 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-            
-        
-       
             <div class="relative">
                 <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
@@ -21,24 +17,8 @@
                     {{ __('Create User') }}
                 </a>
             </div>
-        <!-- </form> -->
-<!-- 
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /> </svg>
-            <input type="text" name="search" id="search" class="mt-1 block w-full shadow block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500"  placeholder="{{ __('Search by name or user') }}" wire:model="search"> -->
-        
-            <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 ">
-                        <input type="text" name="search" id="search" class="mt-1 block w-full shadow block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500"  placeholder="{{ __('Search by name or user') }}" wire:model="search">
-                    </div>
-            </div> -->
+
         </div>
-
-        <!-- <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-
-             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"> <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /> </svg>
-            <input type="text" name="search" id="search" class="mt-1 block w-full shadow block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500"  placeholder="{{ __('Search by name or user') }}" wire:model="search">
-        
-        </div> -->
     </div>
 
     <div class="py-12">
@@ -73,11 +53,18 @@
                     </ul>
 
                     @if(!count($users))
-                    <main class="grid min-h-full place-items-center text-center bg-white px-6 py-24 sm:py-32 lg:px-8">
-                            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" class="h-8 w-8 mb-4"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                            <h2 class="font-semibold text-slate-900">  {{ __('no_results_found') }}</h2>
-                            <p class="mt-2 text-sm leading-6 text-slate-600"> {!! __("no_results_found_detail", [ 'attribute' => $filter ]) !!} </p>
-                    </main>
+                        @if($filter != '')
+                        <main class="grid min-h-full place-items-center text-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+                                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" class="h-8 w-8 mb-4"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                <h2 class="font-semibold text-slate-900"> {{ __('no_results_found') }}</h2>
+                                <p class="mt-2 text-sm leading-6 text-slate-600"> {!! __("no_results_found_detail", [ 'attribute' => $filter ]) !!} </p>
+                        </main>
+                        @else
+                        <main class="grid min-h-full place-items-center text-center bg-white px-6 py-24 sm:py-32 lg:px-8">
+                                <svg viewBox="0 0 32 32" fill="none" aria-hidden="true" class="h-8 w-8 mb-4"><path d="m13 13 6 6m0-6-6 6m15-3c0 6.627-5.373 12-12 12S4 22.627 4 16 9.373 4 16 4s12 5.373 12 12Z" stroke="#CBD5E1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                                <h2 class="font-semibold text-slate-900">  {{ __('no_results_found') }}</h2>
+                        </main>
+                        @endif
                     @else
 
                     <nav aria-label="Page navigation example" class="mt-4">

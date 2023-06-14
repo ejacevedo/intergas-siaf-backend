@@ -82,7 +82,7 @@
                     </div> -->
 
                     <div>
-                        <label class="block font-medium text-sm text-gray-700" for="file_quotes">
+                        <label class="block font-medium text-sm text-gray-700" for="file_routes">
                         {{ __('Load file of routing - expenses') }} |
                             <a href="{{asset('rutas-gastos.csv')}}" class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"  target="_blank" style="color: #007bff; text-decoration: underline; font-size: inherit;"> 
                                 {{ __('csv_format') }}
@@ -90,10 +90,10 @@
                             </a>    
                         </label>
 
-                        <!-- <label class="block font-medium text-sm text-gray-700" for="file_quotes">{{ __('Load file of routing - expenses') }} </label> -->
-                        <input class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" aria-describedby="file_quotes_help" id="file_quotes" type="file" wire:model.defer="file_quotes">
-                        @error('file_quotes') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                        @if ($file_quotes_message) <span class="text-sm text-red-600 space-y-1 mt-2">{{ $file_quotes_message }}</span>@endif
+                        <!-- <label class="block font-medium text-sm text-gray-700" for="file_routes">{{ __('Load file of routing - expenses') }} </label> -->
+                        <input class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" aria-describedby="file_quotes_help" id="file_routes" type="file" wire:model.defer="file_routes">
+                        @error('file_routes') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        @if ($file_routes_message) <span class="text-sm text-red-600 space-y-1 mt-2">{{ $file_routes_message }}</span>@endif
                     </div>
 
                     <!-- <div class="flex items-center justify-center w-full">
@@ -126,16 +126,16 @@
                     </div> -->
 
                     <div>
-                        <label class="block mb-2 text-sm font-medium text-gray-700" for="file_locations">
+                        <label class="block mb-2 text-sm font-medium text-gray-700" for="file_addresses">
                             {{ __('Load addresses file') }} |
                             <a href="{{asset('catalogo-rutas.csv')}}" class="inline-flex items-center font-medium text-blue-600 dark:text-blue-500 hover:underline"  target="_blank" style="color: #007bff; text-decoration: underline; font-size: inherit;"> 
                                 {{ __('csv_format') }}
                                 <svg  xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" /> </svg> 
                             </a>    
                         </label>
-                        <input class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" aria-describedby="file_locations_help" id="file_locations" type="file" wire:model.defer="file_locations">
-                        @error('file_locations') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                        @if ($file_locations_message) <span class="text-sm text-red-600 space-y-1 mt-2">{{ $file_locations_message }}</span>@endif
+                        <input class="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none" aria-describedby="file_locations_help" id="file_addresses" type="file" wire:model.defer="file_addresses">
+                        @error('file_addresses') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        @if ($file_addresses_message) <span class="text-sm text-red-600 space-y-1 mt-2">{{ $file_addresses_message }}</span>@endif
                     </div>
 
                     <div class="flex items-center gap-4">
