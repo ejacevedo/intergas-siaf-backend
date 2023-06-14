@@ -19,10 +19,10 @@ class QuoteRoute
     }
 
     public function getCostPerKilogram(Setting $setting, Route $quote) {
-        return round($quote->price_sale / $setting->price_kilogram, 2);
+        return round($quote->price_sale / $setting->load_capacity_per_kilogram, 2);
     }
 
     public function getCostPerliter(Setting $setting, Route $quote){
-        return round($quote->price_sale / $setting->price_liter, 2);
+        return round($quote->price_sale / $setting->load_capacity_per_liter, 2);
     }
 }

@@ -30,22 +30,29 @@
                         @error('setting.price_sale') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
+                    <div>
+                        <div class="relative">
+                            <input autocomplete="nope" type="number" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="density"  wire:model.lazy="setting.density" wire:change="calcLoadCapacityPerLiter()" min="0.1" step="0.01" />
+                            <label for="density" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Density') }}</label>
+                        </div>
+                        @error('setting.density') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                    </div>
 
                     <div>
                         <div class="relative">
-                            <input autocomplete="nope" type="number" id="price_kilogram"  class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " wire:model.defer="setting.price_kilogram" min="0.1" step="0.01" />
-                            <label for="price_kilogram" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Load capacity per kilogram') }}</label>
+                            <input autocomplete="nope" type="number" id="load_capacity_per_kilogram"  class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " wire:model.lazy="setting.load_capacity_per_kilogram" wire:change="calcLoadCapacityPerLiter()" min="0.1" step="0.01" />
+                            <label for="load_capacity_per_kilogram" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Load capacity per kilogram') }}</label>
                         </div>
-                        @error('setting.price_kilogram') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        @error('setting.load_capacity_per_kilogram') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
 
                     <div>
                         <div class="relative">
-                            <input autocomplete="nope" type="number" id="price_liter"  class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " wire:model.defer="setting.price_liter" min="0.1" step="0.01" />
-                            <label for="price_liter" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Price Liter') }}</label>
+                            <input aria-label="disabled input" type="number" id="load_capacity_per_liter"  class="cursor-not-allowe bg-gray-100 shadow-sm p-4 block w-full text-sm text-gray-900 rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " wire:model.lazy="setting.load_capacity_per_liter"  disabled/>
+                            <label for="load_capacity_per_liter" class="absolute bg-gray-100 text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Load capacity per Liter') }}</label>
                         </div>
-                        @error('setting.price_liter') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
+                        @error('setting.load_capacity_per_liter') <span class="text-sm text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
 
 

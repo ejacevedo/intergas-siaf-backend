@@ -47,8 +47,9 @@ class Edit extends Component
     {
         return [
             'setting.price_sale' => 'required|numeric|min:0.1',
-            'setting.price_kilogram' => 'required|numeric',
-            'setting.price_liter' => 'required|numeric',
+            'setting.density' => 'required|numeric',
+            'setting.load_capacity_per_kilogram' => 'required|numeric',
+            'setting.load_capacity_per_liter' => 'required|numeric',
             'setting.price_disel' => 'required|numeric',
             'setting.price_event' => 'required|numeric',
             'file_locations' => ['nullable',  File::types(['csv'])],
@@ -60,6 +61,7 @@ class Edit extends Component
     {
         // $this->addressRepository = $addressRepository;
         $this->setting =  Setting::get()->first();
+        $this->calcLoadCapacityPerLiter();
         $this->all_roles_except_a_and_b = Role::whereNotIn('name', ['role A', 'role B'])->get();
     }
 
@@ -70,6 +72,7 @@ class Edit extends Component
             DB::beginTransaction();
             $this->processFileLocations();
             $this->processFileQuotes();
+            $this->calcLoadCapacityPerLiter();
             $this->setting->save();
             DB::commit();
             return Redirect::route('settings.edit')->with('status', 'updated');
@@ -78,6 +81,10 @@ class Edit extends Component
             return;
             // return Redirect::route('settings.edit')->with('status', 'updated');
         }    
+    }
+
+    public function calcLoadCapacityPerLiter() {
+        $this->setting->load_capacity_per_liter = round($this->setting->load_capacity_per_kilogram / $this->setting->density,2);
     }
 
     private function processFileLocations() {
@@ -164,11 +171,9 @@ class Edit extends Component
             $routes = $this->getRouteLocations($key, $value['ruta']);
             $routes_new = $this->getRoutes($key, $value['ruta']);
 
-            $replace = ["$",","];
-            $values   = ["",""];
+            $replace = ["$"];
+            $values   = [""];
 
-            // $replace = ["$"];
-            // $values   = [""];
 
             $kilometer = str_replace($replace, $values, $value['km']);
             $cost_tollbooth = str_replace($replace, $values, $value['casetas']);
@@ -189,7 +194,7 @@ class Edit extends Component
                 'cost_food'=> $cost_food,
                 'cost_hotel'=> $cost_hotel,
                 'created_at' => now(),
-                'updated_at' => now()
+                'updated_at' => now()     
             ];
 
             $routes_bulk[] = [
@@ -205,10 +210,11 @@ class Edit extends Component
                 'cost_hotel'=> $cost_hotel,
                 'created_at' => now(),
                 'updated_at' => now()
+              
             ];
-
-            
         }
+
+        // throw new \Exception(json_encode([ 'quotes_bulk' => $quotes_bulk, 'routes_bulk' => $routes_bulk]));
 
         return [$quotes_bulk, $routes_bulk];
     }
@@ -221,6 +227,7 @@ class Edit extends Component
     }
 
     private function getRouteLocations($key, string $routes){
+        $line = $key + 2;
         $rutasArray = explode("-",$routes);
         if(count($rutasArray) !== 3) {
             $this->file_quotes_message = __('incorrect_route_format', ['line' => $key + 1]);
@@ -234,22 +241,35 @@ class Edit extends Component
         $location0 = Location::select('id', 'name')->where('name', $locationName0)->first();
         $location1 = Location::select('id', 'name')->where('name', $locationName1)->first();
         $location2 = ($locationName0 === $locationName2) ? $location0 : Location::select('id', 'name')->where('name', $locationName2)->first();
-        
-        if(empty($location0) || empty($location1) || empty($location2)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => $key + 1]);
+
+        if(empty($location0)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName0} no encontrada" ]);
+            throw new \Exception($this->file_quotes_message);
+        }
+
+        if(empty($location1)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName1} no encontrada" ]);
+            throw new \Exception($this->file_quotes_message);
+        }
+
+        if(empty($location2)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName2} no encontrada" ]);
             throw new \Exception($this->file_quotes_message);
         }
 
         return [$location0,  $location1,  $location2];
     }
 
+    
+
     private function getRoutes($key, string $routes){
+        $line = $key + 2;
         $rutasArray = explode("-",$routes);
         if(count($rutasArray) !== 3) {
             $this->file_quotes_message = __('incorrect_route_format', ['line' => $key + 1]);
             throw new \Exception($this->file_quotes_message);
         }
-        
+    
         $locationName0 = trim($rutasArray[0]);
         $locationName1 = trim($rutasArray[1]);
         $locationName2 = trim($rutasArray[2]);
@@ -258,8 +278,18 @@ class Edit extends Component
         $location1 = Address::select('id', 'name')->where('name', $locationName1)->first();
         $location2 = ($locationName0 === $locationName2) ? $location0 : Address::select('id', 'name')->where('name', $locationName2)->first();
         
-        if(empty($location0) || empty($location1) || empty($location2)) {
-            $this->file_quotes_message = __('location_not_found', ['line' => $key + 1]);
+        if(empty($location0)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName0} no encontrada" ]);
+            throw new \Exception($this->file_quotes_message);
+        }
+
+        if(empty($location1)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName1} no encontrada" ]);
+            throw new \Exception($this->file_quotes_message);
+        }
+
+        if(empty($location2)) {
+            $this->file_quotes_message = __('location_not_found', ['line' => "{$line} - Dirección ${locationName2} no encontrada" ]);
             throw new \Exception($this->file_quotes_message);
         }
 
@@ -268,6 +298,7 @@ class Edit extends Component
 
     private function creteQuotesBulk($quotes_bulk, $routes_bulk) {
         try {
+            
             Quote::whereNotNull('id')->delete();
             Quote::insert($quotes_bulk);
 

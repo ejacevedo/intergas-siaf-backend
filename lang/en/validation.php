@@ -185,16 +185,17 @@ return [
         'name' => 'name',
         'password' => 'password',
         'status' => 'status',
-        'password_confirmation' => 'password_confirmation',
+        'password_confirmation' => 'password confirmation',
         'status' => 'status',
         'search' => 'search',
-        'file_quotes' => 'file_quotes',
-        'file_locations' => 'file_locations',
-        'price_sale' => 'price_sale',
-        'price_kilogram' => 'price_kilogram',
-        'price_liter' => 'price_liter',
-        'price_disel' => 'price_disel',
-        'price_event' => 'price_event'
+        'file_quotes' => 'file quotes',
+        'file_locations' => 'file locations',
+        'density' => 'density',
+        'price_sale' => 'price sale',
+        'load_capacity_per_kilogram' => 'load capacity per kilogram',
+        'load_capacity_per_liter' => 'load capacity per kilogram',
+        'price_disel' => 'price disel',
+        'price_event' => 'price event'
     ],
 
 ];

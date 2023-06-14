@@ -33,17 +33,13 @@ class RouteRepository
         return Route::findOrFail($id);
     }
 
-    public function getAll(int $pagination = 10, int $limit = null, array $filters = [], array $search = [])
+    public function getAll(int $pagination = 10, array $filters = [], array $search = [])
     {
         $query = QueryBuilder::for(Route::class)
             ->allowedFilters($this->getAllowedFilters())
             ->allowedIncludes('load_address', 'unload_address', 'return_address')
             ->defaultSort('-id');
             
-        if ($limit) {
-            $query->limit($limit);
-        }
-
         if (!empty($filters)) {
             $query->allowedFilters(array_keys($filters));
             $query->where($filters);

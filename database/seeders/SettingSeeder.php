@@ -16,8 +16,9 @@ class SettingSeeder extends Seeder
     {
         Setting::create([
             'price_sale' =>  0.66667,
-            'price_kilogram' => 38000.00,
-            'price_liter' => 76000.00,
+            'density' => 2,
+            'load_capacity_per_kilogram' => 38000.00,
+            'load_capacity_per_liter' => 76000.00,
             'price_disel' => 24.20,
             'price_event' => 3.20,
         ]);

@@ -14,7 +14,6 @@ use App\Repositories\AddressRepository;
 
 class AddressController extends Controller
 {
-
     private $addressRepository;
 
     public function __construct(AddressRepository $addressRepository)
@@ -25,7 +24,8 @@ class AddressController extends Controller
     public function index(Request $request)
     {
         try {
-            $addresses = $this->addressRepository->getAll();
+            $limit = $request->query('limit', 10);
+            $addresses = $this->addressRepository->getAll($limit);
             return response()->json($addresses, 200);
         } catch (Exception $e) {
             return response()->json([

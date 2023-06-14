@@ -14,13 +14,17 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->id();
             $table->decimal('price_sale', 8, 5)->default(0);
-            $table->decimal('price_kilogram', 8, 2)->default(0);
-            $table->decimal('price_liter', 8, 2)->default(0);
+            $table->decimal('density', 8, 2)->default(0);
+            $table->decimal('load_capacity_per_kilogram', 8, 2)->default(0);
+            $table->decimal('load_capacity_per_liter', 8, 2)->default(0);
             $table->decimal('price_disel', 8, 2)->default(0);
             $table->decimal('price_event', 8, 2)->default(0);
             $table->timestamps();
         });
+
     }
+
+
     
     /**
      * Reverse the migrations.

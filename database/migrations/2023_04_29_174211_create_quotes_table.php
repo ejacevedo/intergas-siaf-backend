@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('point_a_location_id');
             $table->bigInteger('point_b_location_id');
             $table->bigInteger('point_c_location_id');
-            $table->integer('kilometer');
+            $table->decimal('kilometer', 8, 2)->default(0);
             $table->decimal('cost_tollbooth', 8, 2)->default(0);
             $table->decimal('cost_pemex', 8, 2)->default(0);
             $table->decimal('cost_pension', 8, 2)->default(0);

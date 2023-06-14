@@ -32,13 +32,13 @@ class AddressRepository
         return Address::findOrFail($id);
     }
 
-    public function getAll(int $pagination = 10, int $limit = null, array $filters = [])
+    public function getAll(int $pagination = 10, array $filters = [])
     {
         $query = QueryBuilder::for(Address::class)
             ->allowedFilters($this->getAllowedFilters())
             ->defaultSort('-id');
-        
-        return$query->paginate($pagination);
+
+        return $query->paginate($pagination);
     }
 
     public function clearAll()

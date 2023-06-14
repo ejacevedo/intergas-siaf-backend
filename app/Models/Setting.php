@@ -12,8 +12,9 @@ class Setting extends Model
 
     protected $fillable = [
         'price_sale',
-        'price_kilogram',
-        'price_liter',
+        'density',
+        'load_capacity_per_kilogram',
+        'load_capacity_per_liter',
         'price_disel',
         'price_event'
     ];

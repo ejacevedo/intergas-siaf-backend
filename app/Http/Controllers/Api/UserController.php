@@ -28,11 +28,11 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function new_index(Request $request)
+    public function index(Request $request)
     {
         try {
-            $pageNumber = $request->query('page', 200);
-            $users = $this->userRepository->getAll($pageNumber);
+            $limit = $request->query('limit', 10);
+            $users = $this->userRepository->getAll($limit);
             return response()->json($users, 200);
         } catch (Exception $e) {
             return response()->json([
@@ -42,29 +42,7 @@ class UserController extends Controller
         }
     }
 
-    public function index(Request $request)
-    {
-        try {
-            $users = User::when(request('filter'), function ($query) {
-                $filter = request('filter');
-                $query->where('name', 'like', "%$filter%")
-                ->orWhere('username', 'like', "%$$filter%")
-                ->orWhere('status',  "%$$filter%");                           
-            })->when(request('status'), function ($query) {
-                $query->orWhere('status', request('status'));                        
-            })
-           ->latest()
-           ->paginate(200);
-           return response()->json($users, 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'error' => 'users.index.failed',
-                'message' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    public function updateRoles(Request $request, $id) {
+    public function updateRoles(Request $request, $username) {
         
         try {
             $request->validate([
@@ -72,7 +50,7 @@ class UserController extends Controller
                 'roles.*' => 'string|in:'.implode(',', [Roles::ROOT, Roles::ADMIN_QUOTE, Roles::QUOTE]),
             ]);
     
-            $user = $this->userRepository->getById($id);
+            $user = $this->userRepository->getByUsername($username);
             $roles = $request->input('roles');
             $this->userRepository->updateRoles($user,$roles);
             return response()->json(['message' => __('Roles updated successfully')]);
@@ -82,7 +60,20 @@ class UserController extends Controller
                 'message' => $e->getMessage()
             ], 500);
         }
-       
+    }
+
+    public function getRoles(Request $request) {
+        
+        try {
+            $pageNumber = $request->query('page', 200);
+            $roles = $this->userRepository->getAllRoles($pageNumber);
+            return response()->json($roles, 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'users.roles.all.failed',
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     

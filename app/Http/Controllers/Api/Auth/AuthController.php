@@ -22,7 +22,8 @@ class AuthController extends Controller
 
         if(Auth::attempt($credentials)){
             $user = Auth::user();
-            
+            $roles = $user->getRoleNames()->toArray();
+
             if(!$user->status) {
                 return response(["message"=>  __('auth.user_inactive')],Response::HTTP_UNAUTHORIZED);
             }
@@ -34,7 +35,14 @@ class AuthController extends Controller
             $token = $user->createToken('token')->plainTextToken;
             return response([
                 'token'=> $token, 
-                'user' => $user
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'username' => $user->username,
+                    'status' => $user->status,
+                    'roles' => $roles,
+                ],
+
             ], Response::HTTP_OK);
 
         } else {

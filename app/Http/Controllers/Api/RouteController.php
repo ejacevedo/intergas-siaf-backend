@@ -34,8 +34,8 @@ class RouteController extends Controller
     public function index(Request $request)
     {
         try {
-            $pageNumber = $request->query('page', 200);
-            $routes = $this->routeRepository->getAll($pageNumber, 100);
+            $limit = $request->query('limit', 10);
+            $routes = $this->routeRepository->getAll($limit);
             return response()->json($routes, 200);
         } catch (Exception $e) {
             return response()->json([
@@ -66,7 +66,7 @@ class RouteController extends Controller
                 'return_address_id' => $request->return_address_id,
             ];
 
-            $routes = $this->routeRepository->getAll($perPage, null, $filters);
+            $routes = $this->routeRepository->getAll($perPage, $filters);
             $router = $routes->first();
 
             if(empty($router)) {
@@ -83,6 +83,20 @@ class RouteController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'router.index.failed',
+                'message' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    public function createBulk(Request $request)
+    {
+        try {
+            $data = $request->all();
+            $response = $this->routeRepository->createBulk($data);
+            return response()->json($response , 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => 'router.index.createBulk',
                 'message' => $e->getMessage()
             ], 400);
         }

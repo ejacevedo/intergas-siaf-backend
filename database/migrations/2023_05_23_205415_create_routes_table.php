@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('load_address_id');
             $table->bigInteger('unload_address_id');
             $table->bigInteger('return_address_id');
-            $table->integer('kilometer');
+            $table->decimal('kilometer', 8, 2)->default(0);
             $table->decimal('cost_tollbooth', 8, 2)->default(0);
             $table->decimal('cost_pemex', 8, 2)->default(0);
             $table->decimal('cost_pension', 8, 2)->default(0);

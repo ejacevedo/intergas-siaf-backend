@@ -48,7 +48,7 @@ class Handler extends ExceptionHandler
                         'error' => 'Entry for '.str_replace('App', '', $exception->getModel()).' not found'
                     ], 404);
             } else if($exception instanceof AuthenticationException) {
-                return response()->json(['error' => 'Unauthenticated'], 401);
+                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated' ], 401);
             } else if($exception instanceof ValidationException) {
                 return response()->json(
                     [ 
@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
                         'error' => $exception->getMessage()
                     ],400);
             } else if ($exception instanceof UnauthorizedException) {
-                return response()->json(['error' => 'Unauthenticated'], 403);
+                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated' ], 403);
             } else {
                 return response()->json(
                 [ 
