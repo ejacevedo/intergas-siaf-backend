@@ -29,7 +29,7 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
-Route::group(['middleware' => ['role:'.Roles::ROOT]], function () {
+Route::group(['middleware' => ['role:' . Roles::ROOT]], function () {
     Route::get('/users', UserIndex::class)->name('users.index');
     Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
     Route::get('/users/create', UserCreate::class)->name('users.create');
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['role:'.Roles::ROOT]], function () {
 });
 
 Route::group([
-    'middleware' => ['role:'.implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE]),]
+    'middleware' => ['role:' . implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE]),]
 ], function () {
     Route::get('/settings', SettingEdit::class)->name('settings.edit');
 });
@@ -49,5 +49,3 @@ Route::middleware('auth')->group(function () {
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
-
-// require __DIR__.'/auth.php';

@@ -5,9 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Pagination\LengthAwarePaginator;
-
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
@@ -45,7 +43,7 @@ class UserRepository
         $query = QueryBuilder::for(User::class)
             ->allowedFilters($this->getAllowedFiltersForUser())
             ->allowedIncludes('roles')
-            ->where('id', '!=',Auth::id())
+            ->where('id', '!=', Auth::id())
             ->defaultSort('-id');
 
         if (isset($filters['search'])) {
@@ -60,14 +58,14 @@ class UserRepository
         if (!empty($search)) {
             $query->where(function ($query) use ($search) {
                 foreach ($search as $field => $value) {
-                    if(!empty($value)) {
+                    if (!empty($value)) {
                         $query->orWhere($field, 'LIKE', "%{$value}%");
                     }
                 }
             });
             $query->with('roles');
         }
-         
+
         return $query->paginate($pagination);
         // return$query->paginate(2, ['*'], 'page', 2);
     }
@@ -75,13 +73,13 @@ class UserRepository
     public function getAllRoles(int $pagination = 10,  array $search = []): LengthAwarePaginator
     {
         $query = QueryBuilder::for(Role::class)
-        ->allowedFilters($this->getAllowedFiltersForRole())
-        ->defaultSort('-id');
+            ->allowedFilters($this->getAllowedFiltersForRole())
+            ->defaultSort('-id');
 
         if (!empty($search)) {
             $query->where(function ($query) use ($search) {
                 foreach ($search as $field => $value) {
-                    if(!empty($value)) {
+                    if (!empty($value)) {
                         $query->orWhere($field, 'LIKE', "%{$value}%");
                     }
                 }
@@ -89,7 +87,6 @@ class UserRepository
         }
 
         return  $query->paginate($pagination);
-        
     }
 
     private function getAllowedFiltersForRole(): array
@@ -110,7 +107,5 @@ class UserRepository
         return array_map(function ($column) {
             return AllowedFilter::exact($column);
         }, $columns);
-
     }
-
 }

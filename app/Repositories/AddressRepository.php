@@ -4,35 +4,33 @@ namespace App\Repositories;
 
 use App\Models\Address;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
-
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
 class AddressRepository
 {
-    public function create(array $data)
+    public function create(array $data): Address
     {
         return Address::create($data);
     }
 
-    public function update(Address $user, array $data)
+    public function update(Address $user, array $data): Address
     {
         $user->update($data);
         return $user;
     }
 
-    public function delete(Address $user)
+    public function delete(Address $user): void
     {
         $user->delete();
     }
 
-    public function getById($id)
+    public function getById($id): Address
     {
         return Address::findOrFail($id);
     }
 
-    public function getByFilters(array $filters)
+    public function getByFilters(array $filters): Address
     {
         $query = QueryBuilder::for(Address::class);
         $query->allowedFilters(array_keys($filters));
@@ -41,7 +39,7 @@ class AddressRepository
         return $query->first();
     }
 
-    public function getAll(int $pagination = 10, array $filters = [])
+    public function getAll(int $pagination = 10, array $filters = []): LengthAwarePaginator
     {
         $query = QueryBuilder::for(Address::class)
             ->allowedFilters($this->getAllowedFilters())
@@ -51,18 +49,18 @@ class AddressRepository
             $query->allowedFilters(array_keys($filters));
             $query->where($filters);
         }
-    
+
         return $query->paginate($pagination);
     }
 
-    public function clearAll()
+    public function clearAll(): void
     {
-        return Address::truncate();
+        Address::query()->delete();
     }
 
-    public function createBulk(array $addresses)
+    public function createBulk(array $addresses): void
     {
-        return Address::insert($addresses);
+        Address::insert($addresses);
     }
 
     private function getAllowedFilters(): array

@@ -29,21 +29,6 @@ class Route extends Model
         'cost_hotel'
     ];
 
-    // public function settings()
-    // {
-    //     return $this->belongsTo(Settings::class);
-    //     // return $this->belongsTo('App\Models\Settings');
-    // }
-
-    // public function getCoolName1Attribute()
-    // {
-    //     return $this->attributes['kilometer'];
-    // }
-
-    // public function getAgeAttribute($value)
-    // {
-    //     return $this->attributes['kilometer'];
-    // }
 
     public function load_address()
     {
@@ -59,30 +44,4 @@ class Route extends Model
     {
         return $this->belongsTo(Address::class, 'return_address_id');
     }
-
-   
-    // public static function getAllRelations()
-    // {
-    //     $model = new static;
-    //     $relations = $model->getRelationships();
-    //     return array_keys($relations);
-    // }
-
-    // public static function getAllRelations()
-    // {
-    //     $model = new static;
-    //     $methods = get_class_methods($model);
-        
-    //     $relations = collect($methods)
-    //         ->filter(function ($method) use ($model) {
-    //             return Str::startsWith($method, 'get') && $model->$method() instanceof Relation;
-    //         })
-    //         ->map(function ($method) {
-    //             return Str::camel(Str::replaceFirst('get', '', $method));
-    //         })
-    //         ->all();
-        
-    //     return $relations;
-    // }
-
 }

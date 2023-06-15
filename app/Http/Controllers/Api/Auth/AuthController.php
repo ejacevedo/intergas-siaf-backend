@@ -8,29 +8,31 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request): JsonResponse {
-
-        if(Auth::attempt($request->validated())){
+    public function login(LoginRequest $request): JsonResponse
+    {
+        if (Auth::attempt($request->validated())) {
             $user = Auth::user();
+
+            /** @var \App\Models\User $user **/
             $roles = $user->getRoleNames()->toArray();
 
-            if(!$user->status) {
-                return response()->json(["message"=>  __('auth.user_inactive')],Response::HTTP_UNAUTHORIZED);
+            if (!$user->status) {
+                return response()->json(["message" =>  __('auth.user_inactive')], Response::HTTP_UNAUTHORIZED);
             }
 
-            if(!count($user->roles)) {
-                return response()->json(["message"=>  __('auth.roles_unauthorized')],Response::HTTP_UNAUTHORIZED);
+            if (!count($user->roles)) {
+                return response()->json(["message" =>  __('auth.roles_unauthorized')], Response::HTTP_UNAUTHORIZED);
             }
 
+            /** @var \App\Models\User $user **/
             $token = $user->createToken('token')->plainTextToken;
             return response()->json([
-                'token'=> $token, 
+                'token' => $token,
                 'user' => [
                     'id' => $user->id,
                     'name' => $user->name,
@@ -39,25 +41,26 @@ class AuthController extends Controller
                     'roles' => $roles,
                 ],
             ], Response::HTTP_OK);
-
         } else {
-            return response()->json(["message"=>  __('auth.failed')],Response::HTTP_UNAUTHORIZED);
+            return response()->json(["message" =>  __('auth.failed')], Response::HTTP_UNAUTHORIZED);
         }
     }
-    
-    public function logout(Request $request): JsonResponse {
+
+    public function logout(Request $request): JsonResponse
+    {
         $request->user()->currentAccessToken()->delete();
         return response()->json(null, Response::HTTP_OK);
     }
 
-    public function changePassword(Request $request): JsonResponse {
+    public function changePassword(Request $request): JsonResponse
+    {
         $validated = $request->validate([
             'new_password'     => 'required',
             'password_confirmation' => 'required|same:new_password',
         ]);
 
         User::whereId(Auth::id())->update([
-            'password' => Hash::make($request->new_password) 
+            'password' => Hash::make($request->new_password)
         ]);
 
         return response()->json([

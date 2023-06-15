@@ -8,11 +8,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 
-// use Illuminate\Auth\Middleware\Authenticate;
-
-// use Illuminate\Database\Eloquent\ModelNotFoundException;
-
-
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -45,85 +40,32 @@ class Handler extends ExceptionHandler
                 return response()->json(
                     [
                         'message' => 'External API call failed',
-                        'error' => 'Entry for '.str_replace('App', '', $exception->getModel()).' not found'
-                    ], 404);
-            } else if($exception instanceof AuthenticationException) {
-                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated' ], 401);
-            } else if($exception instanceof ValidationException) {
+                        'error' => 'Entry for ' . str_replace('App', '', $exception->getModel()) . ' not found'
+                    ],
+                    404
+                );
+            } else if ($exception instanceof AuthenticationException) {
+                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated'], 401);
+            } else if ($exception instanceof ValidationException) {
                 return response()->json(
-                    [ 
-                        'message' => 'Validation exception.',  
+                    [
+                        'message' => 'Validation exception.',
                         'error' => $exception->getMessage()
-                    ],400);
+                    ],
+                    400
+                );
             } else if ($exception instanceof UnauthorizedException) {
-                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated' ], 403);
+                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated'], 403);
             } else {
                 return response()->json(
-                [ 
-                    'message' => 'External API call failed',  
-                    'error' => $exception->getMessage()
-                ],500);
+                    [
+                        'message' => 'External API call failed',
+                        'error' => $exception->getMessage()
+                    ],
+                    500
+                );
             }
         }
         return parent::render($request, $exception);
     }
-
-    // protected function unauthenticated($request, AuthenticationException $exception)
-    // {
-    //     return response()->json(['error' => '123213Unauthenticated.'], 401);
-    // }
-
-    // protected function unauthenticated($request, AuthenticationException $exception) 
-    // {
-    //     if ($request->expectsJson()) {
-    //         return response()->json(['error' => 'Unauthenticated11.'], 401);
-    //     }
-
-    //     return redirect()->guest('login');
-    // }
-
-    // protected function unAuthenticated($request, AuthenticationException $exception)
-    // {
-    //     return $request->expectsJson()
-    //                 ? response()->json(['message' => $exception->getMessage()], 401)
-    //                 : redirect()->guest(route('loactions'));
-    // }
-
-    // protected function unauthenticated($request, AuthenticationException $exception)
-    // {
-    //     if ($request->expectsJson()) {
-    //         return response()->json(['error' => 'Unauthenticated.'], 401);
-    //     }
-
-    //     // return a plain 401 response even when not a json call
-    //     return response('Unauthenticated.', 401);
-    // }
-
-    // protected function unauthenticated($request, AuthenticationException $exception) 
-    // {
-    //     if ($request->expectsJson()) {
-    //         return response()->json(['error' => 'Unauthenticated.'], 401);
-    //     }
-
-    //     return redirect()->guest('login');
-    // }
-
-    // protected function unauthenticated($request, AuthenticationException $exception)
-    // {
-    //     if ($request->expectsJson()) {
-    //         return response()->json(['error' => 'Unauthenticated.'], 401);
-    //     }
-
-    //     return redirect()->guest(route('locations'));
-    // }
-
-    // protected function unauthenticated($request, AuthenticationException $exception)
-    // {
-    //     if ($request->expectsJson()) {
-    //         return response()->json(['error' => 'Unauthenticated.'], 401);
-    //     }
-
-    //     // return a plain 401 response even when not a json call
-    //     return response('Unauthenticated.', 401);
-    // }
 }

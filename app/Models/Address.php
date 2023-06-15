@@ -17,5 +17,4 @@ class Address extends Model
         'user_id',
         'status'
     ];
-    
 }

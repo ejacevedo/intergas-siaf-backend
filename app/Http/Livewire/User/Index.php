@@ -65,7 +65,7 @@ class Index extends Component
 
     // public function render()
     // {
-        
+
     //     $users = $this->userRepository->getAll($this->page, null, [], [
     //         'name' => $this->search,
     //         'username' => $this->search,
@@ -77,16 +77,16 @@ class Index extends Component
     // }
 
     public function render()
-    {        
-        $users = User::where('id', '<>',Auth::id())->where(function($query) {
+    {
+        $users = User::where('id', '<>', Auth::id())->where(function ($query) {
             $query->when($this->filter !== '', function ($query) {
                 $query->where('name', 'like', "%$this->filter%")
-                ->orWhere('username', 'like', "%$this->filter%");
+                    ->orWhere('username', 'like', "%$this->filter%");
             });
         })
-        ->with('roles')
-        ->latest()
-        ->paginate(5);
+            ->with('roles')
+            ->latest()
+            ->paginate(5);
         return view('livewire.user.index', [
             'users' => $users
         ]);

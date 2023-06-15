@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\Route;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -68,7 +67,6 @@ class RouteRepository
 
         array_push($allowedFilterRouter, AllowedFilter::exact('load_address.status'), AllowedFilter::exact('unload_address.status'), AllowedFilter::exact('return_address_id.status'));
         return $allowedFilterRouter;
-
     }
     
     public function clearAll(): void

@@ -10,12 +10,12 @@
                     </a>
                 </div>
 
-            
+
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                 
+
                 @hasrole('root')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-6 sm:flex">
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit')">
@@ -26,7 +26,7 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-6 sm:flex">
                     <x-nav-link :href="route('settings.edit')" :active="request()->routeIs('settings.edit')">
-                    {{ __('Quote') }}
+                        {{ __('Quote') }}
                     </x-nav-link>
                 </div>
 
@@ -52,8 +52,7 @@
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
@@ -77,16 +76,15 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :active="request()->routeIs('dashboard')">
-                {{ __('Menu') }}
-            </x-responsive-nav-link>
-        </div>
+      
 
-        <div class="pt-1 pb-1 border-t border-gray-200">
-           
+        <div class="pt-4 pb-1 border-t border-gray-200">
 
-            <div class="space-y-1">
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800">  {{ __('Menu') }}</div>
+            </div>
+
+            <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index') || request()->routeIs('users.create') || request()->routeIs('users.edit')">
                     {{ __('Users') }}
                 </x-responsive-nav-link>
@@ -98,11 +96,6 @@
             </div>
         </div>
 
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -112,7 +105,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
@@ -120,8 +113,7 @@
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
 
-                    <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

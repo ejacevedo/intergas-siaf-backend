@@ -22,23 +22,24 @@ use App\Constants\Roles;
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::group(['middleware' => ['auth:sanctum'] ], function(){
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/addresses', [AddressController::class, 'index']);
 
     Route::get('/routes', [RouteController::class, 'index']);
     Route::post('/routes/quote', [RouteController::class, 'quote']);
-    
+
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/change_password', [AuthController::class, 'changePassword']);
 });
 
-Route::group(['middleware' => ['auth:sanctum', 'role:'.implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE])]], function () {
+Route::group(['middleware' => ['auth:sanctum', 'role:' . implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE])]], function () {
     Route::get('/users', [UserController::class, 'index']);
     Route::patch('/users/{username}/roles', [UserController::class, 'updateRoles']);
     Route::get('/roles', [UserController::class, 'getRoles']);
 });
 
-Route::fallback(function(){
+Route::fallback(function () {
     return response()->json([
-        'message' => 'Endpoint not found. If the error persists, contact your system team'], 404);
+        'message' => 'Endpoint not found. If the error persists, contact your system team'
+    ], 404);
 });

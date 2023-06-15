@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\User;
+
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules\Password;
@@ -11,8 +12,8 @@ use Livewire\Component;
 class Create extends Component
 {
     public User $user;
-    public $password= '';
-    public $password_confirmation= '';
+    public $password = '';
+    public $password_confirmation = '';
     public $roles;
     public $selected_roles;
 
@@ -27,7 +28,7 @@ class Create extends Component
         return [
             'user.name' => 'required|string',
             'user.username' => 'required|string',
-            'password' => [ 'required', Password::defaults()],
+            'password' => ['required', Password::defaults()],
             'password_confirmation' => 'required|same:password',
             'selected_roles' => 'required|array',
         ];

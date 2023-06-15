@@ -18,5 +18,4 @@ class Setting extends Model
         'price_disel',
         'price_event'
     ];
-    
 }
