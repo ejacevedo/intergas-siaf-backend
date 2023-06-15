@@ -3,57 +3,47 @@
 namespace App\Repositories;
 
 use App\Models\User;
-// use Spatie\Permission\Models\Role;
 use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\AllowedFilter;
 
-use Illuminate\Support\Facades\Lang;
-
-
 class UserRepository
 {
-    public function create(array $data)
+    public function create(array $data): User
     {
         return User::create($data);
     }
 
-    public function update(User $user, array $data)
+    public function update(User $user, array $data): User
     {
         $user->update($data);
         return $user;
     }
 
-    public function updateRoles(User $user, array $roles)
+    public function updateRoles(User $user, array $roles): User
     {
         $user->syncRoles($roles);
         return $user;
     }
 
-    public function delete(User $user)
-    {
-        $user->delete();
-    }
-
-    public function getById($id)
+    public function getById($id): User
     {
         return User::findOrFail($id);
     }
 
-    public function getByUsername(string $username)
+    public function getByUsername(string $username): User
     {
         return User::where('username', $username)->firstOrFail();
     }
 
-    public function getAll(int $pagination = 10, array $filters = [],  array $search = []) : LengthAwarePaginator
+    public function getAll(int $pagination = 10, array $filters = [],  array $search = []): LengthAwarePaginator
     {
         $query = QueryBuilder::for(User::class)
-            ->allowedFilters($this->getAllowedFilters())
+            ->allowedFilters($this->getAllowedFiltersForUser())
             ->allowedIncludes('roles')
             ->where('id', '!=',Auth::id())
             ->defaultSort('-id');
@@ -82,10 +72,10 @@ class UserRepository
         // return$query->paginate(2, ['*'], 'page', 2);
     }
 
-    public function getAllRoles(int $pagination = 10, int $limit = null,  array $search = [])
+    public function getAllRoles(int $pagination = 10,  array $search = []): LengthAwarePaginator
     {
         $query = QueryBuilder::for(Role::class)
-        ->allowedFilters($this->getAllowedFiltersRoles())
+        ->allowedFilters($this->getAllowedFiltersForRole())
         ->defaultSort('-id');
 
         if (!empty($search)) {
@@ -102,29 +92,22 @@ class UserRepository
         
     }
 
-    private function getAllowedFiltersRoles(): array
+    private function getAllowedFiltersForRole(): array
     {
-        $columns = DB::getSchemaBuilder()->getColumnListing('roles');
+        $role = new Role();
+        $columns = $role->getFillable();
 
         return array_map(function ($column) {
             return AllowedFilter::exact($column);
         }, $columns);
-
     }
 
-    private function getAllowedFilters(): array
+    private function getAllowedFiltersForUser(): array
     {
-        // $payment = new User();
-        // $columns = $payment->getFillable();
-
-        // return array_map(function ($column) {
-        //     return 'filter[' . $column . ']';
-        // }, $columns);
-
-        $columns = DB::getSchemaBuilder()->getColumnListing('users');
+        $user = new User();
+        $columns = $user->getFillable();
 
         return array_map(function ($column) {
-            // return 'filter[' . $column . ']';
             return AllowedFilter::exact($column);
         }, $columns);
 

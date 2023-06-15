@@ -5,21 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\User\Index as UserIndex;
 use App\Http\Livewire\User\Edit as UserEdit;
 use App\Http\Livewire\User\Create as UserCreate;
-
 use App\Http\Livewire\Setting\Edit as SettingEdit;
 
-
-
 use App\Http\Controllers\Web\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Web\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\Web\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\Web\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\Web\Auth\NewPasswordController;
 use App\Http\Controllers\Web\Auth\PasswordController;
-use App\Http\Controllers\Web\Auth\PasswordResetLinkController;
-use App\Http\Controllers\Web\Auth\RegisteredUserController;
-use App\Http\Controllers\Web\Auth\VerifyEmailController;
-
 
 use App\Constants\Roles;
 
@@ -34,26 +23,11 @@ use App\Constants\Roles;
 |
 */
 
-// Route::get('/', function () {
-//     return view('auth/login');
-//     // Route::get('login', [AuthenticatedSessionController::class, 'create'])
-//     // ->name('login');
-// });
-// Route::get('/', [AuthenticatedSessionController::class, 'create']);
-
-
-
 Route::middleware('guest')->group(function () {
     Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::get('login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
-    Route::post('reset-password', [NewPasswordController::class, 'store'])->name('password.store');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::group(['middleware' => ['role:'.Roles::ROOT]], function () {
     Route::get('/users', UserIndex::class)->name('users.index');
@@ -63,11 +37,7 @@ Route::group(['middleware' => ['role:'.Roles::ROOT]], function () {
 });
 
 Route::group([
-    'middleware' => 
-        [
-            // 'role:'.concatenateArrayValues([Roles::ROOT, Roles::ADMIN_QUOTE])
-            'role:'.implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE]),
-        ]
+    'middleware' => ['role:'.implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE]),]
 ], function () {
     Route::get('/settings', SettingEdit::class)->name('settings.edit');
 });
@@ -76,6 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
 
-require __DIR__.'/auth.php';
+// require __DIR__.'/auth.php';

@@ -12,28 +12,28 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class RouteRepository
 {
-    public function create(array $data)
+    public function create(array $data): Route
     {
         return Route::create($data);
     }
 
-    public function update(Route $route, array $data)
+    public function update(Route $route, array $data): Route
     {
         $route->update($data);
         return $route;
     }
 
-    public function delete(Route $route)
+    public function delete(Route $route): void 
     {
         $route->delete();
     }
 
-    public function getById($id)
+    public function getById($id): Route
     {
         return Route::findOrFail($id);
     }
 
-    public function getAll(int $pagination = 10, array $filters = [], array $search = [])
+    public function getAll(int $pagination = 10, array $filters = [], array $search = []): LengthAwarePaginator
     {
         $query = QueryBuilder::for(Route::class)
             ->allowedFilters($this->getAllowedFilters())
@@ -41,7 +41,6 @@ class RouteRepository
             ->defaultSort('-id');
             
         if (!empty($filters)) {
-            $query->allowedFilters(array_keys($filters));
             $query->where($filters);
         }
 
@@ -60,25 +59,25 @@ class RouteRepository
 
     private function getAllowedFilters(): array
     {
-        $columns = DB::getSchemaBuilder()->getColumnListing('routes');
-
-        $response = array_map(function ($column) {
+        $route = new Route();
+        $columnsRoute = $route->getFillable();
+        
+        $allowedFilterRouter = array_map(function ($column) {
             return AllowedFilter::exact($column);
-        }, $columns);
+        }, $columnsRoute);
 
-
-        array_push($response, AllowedFilter::exact('load_address.status'), AllowedFilter::exact('unload_address.status'), AllowedFilter::exact('return_address_id.status'));
-        return $response;
+        array_push($allowedFilterRouter, AllowedFilter::exact('load_address.status'), AllowedFilter::exact('unload_address.status'), AllowedFilter::exact('return_address_id.status'));
+        return $allowedFilterRouter;
 
     }
     
-    public function clearAll()
+    public function clearAll(): void
     {
-        return Route::truncate();
+        Route::query()->delete();
     }
 
-    public function createBulk(array $routes)
+    public function createBulk(array $routes): void
     {
-        return Route::insert($routes);
+        Route::insert($routes);
     }
 }

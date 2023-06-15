@@ -36,15 +36,15 @@
                                         <p class="mt-1 truncate text-xs leading-5">
                                             <span class="font-semibold text-gray-600"> {{ __('Status')}}</span>: <span> {{ $user->status ? __('Active') : __('Inactive') }} </span> |
                                             @foreach ($user->roles as $role)
-                                                <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10">{{ __($role->name) }}  </span>
+                                                <span class="inline-flex items-center rounded-md bg-gray-50 px-2 py-1 text-xs font-medium text-gray-600 ring-1 ring-inset ring-gray-500/10"> {{ __("roles.{$role->name}") }}  </span>
                                             @endforeach
                                             </p> 
                                     </div>
                                 </div>
                                 <div class="sm:flex sm:flex-col sm:items-end">
                                     <a href="{{route('users.edit', $user->id)}}" class="text-sm leading-6 text-gray-900">
-                                        <p class="font-semibold text-gray-600 underline">Editar</p>
-                                    </a>
+                                        <p class="font-semibold text-gray-600 underline"> {{ __('Edit' )}} </p>
+                                    </a> 
                                 </div>
                             </li>
                         @endforeach

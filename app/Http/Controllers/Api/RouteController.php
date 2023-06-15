@@ -4,22 +4,16 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Route;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use App\Models\Setting;
-use Illuminate\Support\Facades\DB;
 use App\Lib\QuoteRoute;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Repositories\RouteRepository;
 
 use Validator;
 use Exception;
-
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-
-use App\Repositories\RouteRepository;
-
 
 class RouteController extends Controller
 {
@@ -31,21 +25,21 @@ class RouteController extends Controller
         $this->routeRepository = $routeRepository;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         try {
             $limit = $request->query('limit', 10);
             $routes = $this->routeRepository->getAll($limit);
-            return response()->json($routes, 200);
+            return response()->json($routes, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'route.index.failed',
                 'message' => $e->getMessage()
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function quote(Request $request, QuoteRoute $quoteRoute)
+    public function quote(Request $request, QuoteRoute $quoteRoute): JsonResponse
     {
         try {
             $request->validate([
@@ -56,7 +50,7 @@ class RouteController extends Controller
 
             $setting =  Setting::get()->first();
             if(empty($setting)) {
-                throw new ModelNotFoundException(__('Your environment does not have the necessary configuration for quoting'));
+                throw new ModelNotFoundException(__('Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.'));
             }
 
             $perPage = 10;
@@ -70,7 +64,7 @@ class RouteController extends Controller
             $router = $routes->first();
 
             if(empty($router)) {
-                throw new ModelNotFoundException(__('Selected addresses have no route for quotation'));
+                throw new ModelNotFoundException(__('The selected addresses have no route enabled'));
             }
             
             $router['liters'] = $quoteRoute->getLiters($router);
@@ -79,26 +73,26 @@ class RouteController extends Controller
             $router['cost_per_kilogram'] = $quoteRoute->getCostPerKilogram($setting, $router);
             $router['cost_per_liter'] = $quoteRoute->getCostPerliter($setting, $router);
 
-            return response()->json($router, 200);
+            return response()->json($router, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'router.index.failed',
                 'message' => $e->getMessage()
-            ], 400);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 
-    public function createBulk(Request $request)
+    public function createBulk(Request $request): JsonResponse
     {
         try {
             $data = $request->all();
             $response = $this->routeRepository->createBulk($data);
-            return response()->json($response , 200);
+            return response()->json($response , Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'router.index.createBulk',
                 'message' => $e->getMessage()
-            ], 400);
+            ], Response::HTTP_BAD_REQUEST);
         }
     }
 

@@ -3,11 +3,7 @@
 namespace App\Http\Livewire\Setting;
 
 use App\Models\Setting;
-use App\Models\Route;
-use App\Models\Address;
-
 use Livewire\Component;
-
 use Illuminate\Support\Facades\Redirect;
 
 use Illuminate\Support\Facades\Storage;
@@ -19,8 +15,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rules\File;
 use Exception;
 
-
-use Spatie\Permission\Models\Role;
 use App\Repositories\AddressRepository;
 use App\Repositories\RouteRepository;
 
@@ -56,26 +50,26 @@ class Edit extends Component
 
     public function mount()
     {
-        // $this->addressRepository = $addressRepository;
         $this->setting =  Setting::get()->first();
         $this->calcLoadCapacityPerLiter();
     }
 
     public function save()
     {
+        $this->addressRepository = app(AddressRepository::class);
+        $this->routeRepository = app(RouteRepository::class);
         $this->validate();
         try {
-            DB::beginTransaction();
+            // DB::beginTransaction();
             $this->processFileAddresses();
             $this->processFileRoutes();
             $this->calcLoadCapacityPerLiter();
             $this->setting->save();
-            DB::commit();
+            // DB::commit();
             return Redirect::route('settings.edit')->with('status', 'updated');
         } catch (Exception $e) { 
-            DB::rollback();
+            // DB::rollback();
             return;
-            // return Redirect::route('settings.edit')->with('status', 'updated');
         }    
     }
 
@@ -114,11 +108,8 @@ class Edit extends Component
 
     private function createAddressesBulk($addresses_bulk) {
         try {
-
-            $addressRepository = new AddressRepository();
-            $addressRepository->clearAll();
-            $addressRepository->createBulk($addresses_bulk);
-
+            $this->addressRepository->clearAll();
+            $this->addressRepository->createBulk($addresses_bulk);
         } catch (Exception $e) {
             $this->file_addresses_message = __('csv_error_create_bulk', [ 'attribute' => __('addresses')]);
             throw $e;
@@ -205,9 +196,6 @@ class Edit extends Component
               
             ];
         }
-
-        // throw new \Exception(json_encode([ 'quotes_bulk' => $quotes_bulk, 'routes_bulk' => $routes_bulk]));
-
         return $routes_bulk;
     }
 
@@ -230,9 +218,9 @@ class Edit extends Component
         $addressName1 = trim($rutasArray[1]);
         $addressName2 = trim($rutasArray[2]);
 
-        $address0 = Address::select('id', 'name')->where('name', $addressName0)->first();
-        $address1 = Address::select('id', 'name')->where('name', $addressName1)->first();
-        $address2 = ($addressName0 === $addressName2) ? $address0 : Address::select('id', 'name')->where('name', $addressName2)->first();
+        $address0 = $this->addressRepository->getByFilters([ 'name' => $addressName0 ]);
+        $address1 = $this->addressRepository->getByFilters([ 'name' => $addressName1 ]); 
+        $address2 = ($addressName0 === $addressName2) ? $address0 :  $this->addressRepository->getByFilters([ 'name' => $addressName2 ]); 
         
         if(empty($address0)) {
             $this->file_routes_message = __('address_not_found', [ 'name' => $addressName0, 'line' => $line ]);
@@ -254,11 +242,8 @@ class Edit extends Component
 
     private function creteQuotesBulk($routes_bulk) {
         try {
-
-            $routeRepository = new RouteRepository();
-            $routeRepository->clearAll();
-            $routeRepository->createBulk($routes_bulk);
-
+            $this->routeRepository->clearAll();
+            $this->routeRepository->createBulk($routes_bulk);
         } catch (Exception $e) {
             $this->file_addresses_message = __('csv_error_create_bulk', [ 'attribute' => __('routes')]);
             throw $e;
@@ -272,7 +257,7 @@ class Edit extends Component
         }
         return $responseFormat;
     }
-
+    
     public function render()
     {
         return view('livewire.setting.edit');

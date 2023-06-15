@@ -5,7 +5,8 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-// use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -13,27 +14,22 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    public function login(LoginRequest $request): JsonResponse {
 
-    public function login(Request $request) {
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
-        ]);
-
-        if(Auth::attempt($credentials)){
+        if(Auth::attempt($request->validated())){
             $user = Auth::user();
             $roles = $user->getRoleNames()->toArray();
 
             if(!$user->status) {
-                return response(["message"=>  __('auth.user_inactive')],Response::HTTP_UNAUTHORIZED);
+                return response()->json(["message"=>  __('auth.user_inactive')],Response::HTTP_UNAUTHORIZED);
             }
 
             if(!count($user->roles)) {
-                return response(["message"=>  __('auth.roles_unauthorized')],Response::HTTP_UNAUTHORIZED);
+                return response()->json(["message"=>  __('auth.roles_unauthorized')],Response::HTTP_UNAUTHORIZED);
             }
 
             $token = $user->createToken('token')->plainTextToken;
-            return response([
+            return response()->json([
                 'token'=> $token, 
                 'user' => [
                     'id' => $user->id,
@@ -42,24 +38,19 @@ class AuthController extends Controller
                     'status' => $user->status,
                     'roles' => $roles,
                 ],
-
             ], Response::HTTP_OK);
 
         } else {
-            return response(["message"=>  __('auth.failed')],Response::HTTP_UNAUTHORIZED);
+            return response()->json(["message"=>  __('auth.failed')],Response::HTTP_UNAUTHORIZED);
         }
     }
-
-    public function logout(Request $request) {
+    
+    public function logout(Request $request): JsonResponse {
         $request->user()->currentAccessToken()->delete();
-        return response(null, Response::HTTP_OK);
+        return response()->json(null, Response::HTTP_OK);
     }
 
-    public function allUsers(Request $resquest) {
-
-    }
-
-    public function changePassword(Request $request){
+    public function changePassword(Request $request): JsonResponse {
         $validated = $request->validate([
             'new_password'     => 'required',
             'password_confirmation' => 'required|same:new_password',
@@ -70,7 +61,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Updated password.'
-        ], 200);
+            'message' => __('Updated password.')
+        ], Response::HTTP_OK);
     }
 }

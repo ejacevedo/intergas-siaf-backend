@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
-use Carbon\Carbon;
+use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -28,21 +27,21 @@ class UserController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         try {
             $limit = $request->query('limit', 10);
             $users = $this->userRepository->getAll($limit);
-            return response()->json($users, 200);
+            return response()->json($users, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'users.index.failed',
                 'message' => $e->getMessage()
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function updateRoles(Request $request, $username) {
+    public function updateRoles(Request $request, $username): JsonResponse {
         
         try {
             $request->validate([
@@ -58,21 +57,21 @@ class UserController extends Controller
             return response()->json([
                 'error' => 'users.index.failed',
                 'message' => $e->getMessage()
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
-    public function getRoles(Request $request) {
+    public function getRoles(Request $request): JsonResponse {
         
         try {
             $pageNumber = $request->query('page', 200);
             $roles = $this->userRepository->getAllRoles($pageNumber);
-            return response()->json($roles, 200);
+            return response()->json($roles, Response::HTTP_OK);
         } catch (Exception $e) {
             return response()->json([
                 'error' => 'users.roles.all.failed',
                 'message' => $e->getMessage()
-            ], 500);
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

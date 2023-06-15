@@ -78,5 +78,9 @@
     "placeholder_password": "Ingresar su contraseña",
     "no_results_found": "No se han encontrado resultados",
     "no_results_found_detail": "No podemos encontrar nada con término <strong> *:attribute* </strong> en este momento, intente buscar otro.",
-    "Quotation parameters" : "Parámetros de Cotización"
+    "Quotation parameters" : "Parámetros de Cotización",
+    "Edit": "Editar",
+    "Updated password": "Contraseña actualizada",
+    "The selected addresses have no route enabled": "Las direcciones seleccionadas no tienen ninguna ruta habilitada",
+    "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.": "Problemas de configuración, intente nuevamente en los próximos minutos. Si este error persiste, contacte a su equipo de soporte."
 }
