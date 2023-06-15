@@ -29,7 +29,6 @@ class AuthController extends Controller
                 return response()->json(["message" =>  __('auth.roles_unauthorized')], Response::HTTP_UNAUTHORIZED);
             }
 
-            /** @var \App\Models\User $user **/
             $token = $user->createToken('token')->plainTextToken;
             return response()->json([
                 'token' => $token,

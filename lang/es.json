@@ -56,7 +56,7 @@
     "locations": "ubicaciones",
     "quotes": "cotizaciones",
     "incorrect_route_format": "Formato de ruta incorrecto - Linea :line.",
-    "address_not_found": "Ubicación no encontrada - Nombre de la dirección :name  - Linea :line.",
+    "address_not_found": "Ubicación no encontrada - Nombre :name  - Linea :line.",
     "csv_format": "CSV Formato",
     "Price Sale": "Precio Venta",
     "Price Kilogram": "Precio x Kilogramo",
@@ -82,5 +82,6 @@
     "Edit": "Editar",
     "Updated password": "Contraseña actualizada",
     "The selected addresses have no route enabled": "Las direcciones seleccionadas no tienen ninguna ruta habilitada",
-    "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.": "Problemas de configuración, intente nuevamente en los próximos minutos. Si este error persiste, contacte a su equipo de soporte."
+    "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.": "Problemas de configuración, intente nuevamente en los próximos minutos. Si este error persiste, contacte a su equipo de soporte.",
+    "An unexpected error has occurred, please try again in the next few minutes. If this error persists, contact your support team": "Se ha producido un error inesperado, inténtelo de nuevo en los próximos minutos. Si este error persiste, póngase en contacto con su equipo de asistencia"
 }

@@ -57,7 +57,7 @@
     "locations": "locations",
     "quotes": "quotes",
     "incorrect_route_format": "Incorrect route format - Line :line.",
-    "address_not_found": "Address not found - Address name :name  - Line :line.",
+    "address_not_found": "Address not found - Name :name  - Line :line.",
     "csv_format": "CSV Format",
     "Price Sale": "Price Sale",
     "Price Kilogram": "Price Per kilogram",
@@ -83,5 +83,6 @@
     "Edit": "Edit",
     "Updated password": "Updated password",
     "The selected addresses have no route enabled": "The selected addresses have no route enabled",
-    "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.": "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team."
+    "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.": "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.",
+    "An unexpected error has occurred, please try again in the next few minutes. If this error persists, contact your support team": "An unexpected error has occurred, please try again in the next few minutes. If this error persists, contact your support team"
 }

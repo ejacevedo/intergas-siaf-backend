@@ -2,25 +2,27 @@
 
 namespace App\Http\Livewire\User;
 
-use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\UserRepository;
 
 use Livewire\Component;
 
 class Create extends Component
 {
-    public User $user;
+    public $user;
     public $password = '';
     public $password_confirmation = '';
     public $roles;
     public $selected_roles;
+    protected $userRepository;
+
 
     public function mount()
     {
-        $this->user = new User();
-        $this->roles = Role::all();
+        $this->userRepository = app(UserRepository::class);
+        $this->user = $this->userRepository->newInstance();
+        $this->roles = $this->userRepository->getAllRoles()->all();
     }
 
     protected function rules()

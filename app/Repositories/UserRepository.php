@@ -11,6 +11,11 @@ use Spatie\QueryBuilder\AllowedFilter;
 
 class UserRepository
 {
+    public function newInstance(): User
+    {
+        return new User();
+    }
+    
     public function create(array $data): User
     {
         return User::create($data);
@@ -46,18 +51,9 @@ class UserRepository
             ->where('id', '!=', Auth::id())
             ->defaultSort('-id');
 
-        if (isset($filters['search'])) {
+        if (!empty($filters['like'])) {
             $query->where(function ($query) use ($filters) {
-                $searchTerm = $filters['search'];
-                $query->orWhere('name', 'like', "%{$searchTerm}%")
-                    ->orWhere('username', 'like', "%{$searchTerm}%");
-            });
-            $query->with('roles');
-        }
-
-        if (!empty($search)) {
-            $query->where(function ($query) use ($search) {
-                foreach ($search as $field => $value) {
+                foreach ($filters['like'] as $field => $value) {
                     if (!empty($value)) {
                         $query->orWhere($field, 'LIKE', "%{$value}%");
                     }
@@ -66,8 +62,11 @@ class UserRepository
             $query->with('roles');
         }
 
+        if (!empty($filters['equal'])) {
+            $query->where($filters['equal'])->with('roles');
+        }
+
         return $query->paginate($pagination);
-        // return$query->paginate(2, ['*'], 'page', 2);
     }
 
     public function getAllRoles(int $pagination = 10,  array $search = []): LengthAwarePaginator
@@ -85,7 +84,7 @@ class UserRepository
                 }
             });
         }
-
+        
         return  $query->paginate($pagination);
     }
 

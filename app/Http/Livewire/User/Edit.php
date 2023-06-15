@@ -2,16 +2,15 @@
 
 namespace App\Http\Livewire\User;
 
-use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
+use App\Repositories\UserRepository;
 
 use Livewire\Component;
 
 class Edit extends Component
 {
-    public User $user;
+    public $user;
     public string $name;
     public string $username;
     public string $status;
@@ -20,7 +19,7 @@ class Edit extends Component
     public string $asda = '';
     public $roles;
     public $selected_roles;
-
+    protected $userRepository;
 
     protected $rules = [
         'name' => 'required|string',
@@ -28,13 +27,15 @@ class Edit extends Component
         'selected_roles' => 'required|array',
     ];
 
-    public function mount(User $user)
+    public function mount($id)
     {
-        $this->roles = Role::all();
-        $this->name = $user->name;
-        $this->username = $user->username;
-        $this->selected_roles = $user->getRoleNames();
-        $this->status = $user->status ? "true" : "false";
+        $this->userRepository = app(UserRepository::class);
+        $this->user = $this->userRepository->getById($id);
+        $this->roles = $this->userRepository->getAllRoles()->all();
+        $this->name = $this->user->name;
+        $this->username = $this->user->username;
+        $this->selected_roles = $this->user->getRoleNames();
+        $this->status = $this->user->status ? "true" : "false";
     }
 
     public function render()
@@ -68,7 +69,6 @@ class Edit extends Component
 
         $this->user->save();
         $this->user->syncRoles($this->selected_roles);
-
 
         return redirect()->route('users.index');
     }

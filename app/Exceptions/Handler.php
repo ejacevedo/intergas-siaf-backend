@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Illuminate\Http\Response;
+
 
 use Throwable;
 
@@ -36,36 +38,33 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($request->isJson()) {
+            $message = __('An unexpected error has occurred, please try again in the next few minutes. If this error persists, contact your support team.');
+            $error = $exception->getMessage();
+
             if ($exception instanceof ModelNotFoundException) {
-                return response()->json(
-                    [
-                        'message' => 'External API call failed',
-                        'error' => 'Entry for ' . str_replace('App', '', $exception->getModel()) . ' not found'
-                    ],
-                    404
-                );
-            } else if ($exception instanceof AuthenticationException) {
-                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated'], 401);
-            } else if ($exception instanceof ValidationException) {
-                return response()->json(
-                    [
-                        'message' => 'Validation exception.',
-                        'error' => $exception->getMessage()
-                    ],
-                    400
-                );
-            } else if ($exception instanceof UnauthorizedException) {
-                return response()->json(['error' => 'Unauthenticated', 'message' => 'Unauthenticated'], 403);
-            } else {
-                return response()->json(
-                    [
-                        'message' => 'External API call failed',
-                        'error' => $exception->getMessage()
-                    ],
-                    500
-                );
+                $message = __('Resource not found.');
+                $error = 'Entry for ' . str_replace('App', '', $exception->getModel()) . ' not found';
+                return response()->json(['message' => $message, 'error' => $error], Response::HTTP_NOT_FOUND);
             }
+
+            if ($exception instanceof AuthenticationException) {
+                return response()->json(['error' => 'Unauthenticated', 'message' => __('Not authenticated.')], Response::HTTP_UNAUTHORIZED);
+            }
+
+            if ($exception instanceof ValidationException) {
+                $message = __('Validation exception.');
+                $error = $exception->getMessage();
+                return response()->json(['message' => $message, 'error' => $error], Response::HTTP_BAD_REQUEST);
+            }
+
+            if ($exception instanceof UnauthorizedException) {
+                $message = __('You do not have sufficient permissions to access this resource.');
+                return response()->json(['error' => __('Unauthenticated.'), 'message' => $message], Response::HTTP_FORBIDDEN);
+            }
+
+            return response()->json(['message' => $message, 'error' => $error], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
         return parent::render($request, $exception);
     }
 }

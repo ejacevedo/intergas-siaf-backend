@@ -31,7 +31,7 @@ Route::middleware('guest')->group(function () {
 
 Route::group(['middleware' => ['role:' . Roles::ROOT]], function () {
     Route::get('/users', UserIndex::class)->name('users.index');
-    Route::get('/users/{user}/edit', UserEdit::class)->name('users.edit');
+    Route::get('/users/{id}/edit', UserEdit::class)->name('users.edit');
     Route::get('/users/create', UserCreate::class)->name('users.create');
     Route::get('/settings', SettingEdit::class)->name('settings.edit');
 });
