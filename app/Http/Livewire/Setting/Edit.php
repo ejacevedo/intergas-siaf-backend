@@ -3,8 +3,6 @@
 namespace App\Http\Livewire\Setting;
 
 use App\Models\Setting;
-use App\Models\Location;
-use App\Models\Quote;
 use App\Models\Route;
 use App\Models\Address;
 
@@ -69,14 +67,13 @@ class Edit extends Component
         try {
             DB::beginTransaction();
             $this->processFileAddresses();
-            $this->processFileQuotes();
+            $this->processFileRoutes();
             $this->calcLoadCapacityPerLiter();
             $this->setting->save();
             DB::commit();
             return Redirect::route('settings.edit')->with('status', 'updated');
         } catch (Exception $e) { 
             DB::rollback();
-            $this->file_routes_message = $e->getMessage();
             return;
             // return Redirect::route('settings.edit')->with('status', 'updated');
         }    
@@ -89,33 +86,30 @@ class Edit extends Component
     private function processFileAddresses() {
         try {
             if($this->file_addresses) {
-                $filename = $this->file_addresses->hashName();
-                $path = $this->file_addresses->storeAs('temp_csv', $filename);
-                $this->$path = $path;
+                $file_path = $this->file_addresses->path();
+                $line = 0;
+                $addresses_data = [];
+                if (($handle = fopen($file_path, "r")) !== FALSE) {
+                    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+                        $line++;
 
-                $csv_data = $this->getDataFromCsv($this->csv_fields_addresses, $path);
-                if(count($csv_data['header']) && count($csv_data['data'])) {
-                    $addresses_bulk = [];
-                    foreach($csv_data['data'] as $key => $value) {
-                        $addresses_bulk[] = [
-                            'name' => $value['nombre'],
-                            'latitude' => $value['latitud'],
-                            'longitude' => $value['longitud'],
-                            'user_id' => Auth::id(),
-                            'created_at' => now(),
-                            'updated_at' => now()
-                        ];
+                        if($line === 1 ) {
+                            $this->getValidationHeaderCsv($this->csv_fields_addresses, $data);
+                        }  
+                        else
+                        {
+                            $addresses_data[] = $this->buildFormattedItem($this->csv_fields_addresses, $data);
+                        }       
                     }
+                    $addresses_bulk = $this->buildAddressesArray($addresses_data);
                     $this->createAddressesBulk($addresses_bulk);
-                } else {
-                    $this->file_addresses_message = __('Incorrect csv format.');
-                    throw new \Exception($this->file_addresses_message);
-                }
+                   fclose($handle);
+                }                
             } 
-        } catch (Exception $e) { 
+        } catch(Exception $e) {
+            $this->file_addresses_message = $e->getMessage();
             throw $e;
-        }  
-        
+        }
     }
 
     private function createAddressesBulk($addresses_bulk) {
@@ -126,12 +120,12 @@ class Edit extends Component
             $addressRepository->createBulk($addresses_bulk);
 
         } catch (Exception $e) {
-            $this->file_addresses_message = __('csv_error_create_bulk', [ 'attribute' => __('locations')]);
+            $this->file_addresses_message = __('csv_error_create_bulk', [ 'attribute' => __('addresses')]);
             throw $e;
         }
     }
 
-    private function processFileQuotes() {
+    private function processFileRoutes() {
         try {
             if($this->file_routes) {
                 $file_path = $this->file_routes->path();
@@ -151,7 +145,7 @@ class Edit extends Component
                     }
                     $routes_bulk = $this->buildQuotesArray($quotes_data);
                     $this->creteQuotesBulk($routes_bulk);
-                   // fclose($handle);
+                    fclose($handle);
                 }                
             } 
         } catch(Exception $e) {
@@ -160,7 +154,25 @@ class Edit extends Component
         }
     }
 
-    public function buildQuotesArray($quotes){
+    
+    public function buildAddressesArray($addresses) {
+        $addresses_bulk = [];
+        foreach($addresses as $key => $value) {
+
+            $addresses_bulk[] = [
+                'name' => $value['nombre'],
+                'latitude' => $value['latitud'],
+                'longitude' => $value['longitud'],
+                'user_id' => Auth::id(),
+                'created_at' => now(),
+                'updated_at' => now()
+            ];  
+        }
+        return $addresses_bulk;
+    }
+
+
+    public function buildQuotesArray($quotes) {
         $quotes_bulk = [];
         $routes_bulk = [];
         foreach($quotes as $key => $value) {
@@ -214,30 +226,30 @@ class Edit extends Component
             throw new \Exception($this->file_routes_message);
         }
     
-        $locationName0 = trim($rutasArray[0]);
-        $locationName1 = trim($rutasArray[1]);
-        $locationName2 = trim($rutasArray[2]);
+        $addressName0 = trim($rutasArray[0]);
+        $addressName1 = trim($rutasArray[1]);
+        $addressName2 = trim($rutasArray[2]);
 
-        $location0 = Address::select('id', 'name')->where('name', $locationName0)->first();
-        $location1 = Address::select('id', 'name')->where('name', $locationName1)->first();
-        $location2 = ($locationName0 === $locationName2) ? $location0 : Address::select('id', 'name')->where('name', $locationName2)->first();
+        $address0 = Address::select('id', 'name')->where('name', $addressName0)->first();
+        $address1 = Address::select('id', 'name')->where('name', $addressName1)->first();
+        $address2 = ($addressName0 === $addressName2) ? $address0 : Address::select('id', 'name')->where('name', $addressName2)->first();
         
-        if(empty($location0)) {
-            $this->file_routes_message = __('address_not_found', [ 'name' => $locationName0, 'line' => $line ]);
+        if(empty($address0)) {
+            $this->file_routes_message = __('address_not_found', [ 'name' => $addressName0, 'line' => $line ]);
             throw new \Exception($this->file_routes_message);
         }
 
-        if(empty($location1)) {
-            $this->file_routes_message = __('address_not_found', [ 'name' => $locationName0, 'line' => $line  ]);
+        if(empty($address1)) {
+            $this->file_routes_message = __('address_not_found', [ 'name' => $addressName0, 'line' => $line  ]);
             throw new \Exception($this->file_routes_message);
         }
 
-        if(empty($location2)) {
-            $this->file_routes_message = __('address_not_found', [ 'name' => $locationName0, 'line' => $line ]);
+        if(empty($address2)) {
+            $this->file_routes_message = __('address_not_found', [ 'name' => $addressName0, 'line' => $line ]);
             throw new \Exception($this->file_routes_message);
         }
 
-        return [$location0,  $location1,  $location2];
+        return [$address0,  $address1,  $address2];
     }
 
     private function creteQuotesBulk($routes_bulk) {
@@ -253,52 +265,6 @@ class Edit extends Component
         }
     }
 
-    private function getDataFromCsv($csv_fields, $path_file){
-        $file_to_read = Storage::disk('local')->get($path_file);
-        $csv_string = json_encode($file_to_read);
-        $csv_string_trim = trim($csv_string, '".');
-        $csv_array =  explode("\\r\\n", $csv_string_trim);
-        //$csv_format = $this->buildFormattedCsvData($csv_array);
-        // $this->path = json_encode($csv_format);
-
-        // if(count($csv_array) && explode(',',$csv_array[0]) == $csv_fields){
-        //     $csv_format = $this->buildFormattedCsvData($csv_fields, $csv_array);
-        //     return [ 'header' => $csv_format['keys'], 'data' => $csv_format['data'] ];
-        // } else {
-        //     return [ 'header' => [],'data' => [] ];
-        // }
-        return $this->buildFormattedCsvData($csv_fields, $csv_array);
-
-    }
-
-    private function buildFormattedCsvData($csv_fields, $csv_array) {
-        try { 
-            $csv_format = [];
-            $keys = explode(',',$csv_array[0]);
-            $keys = array_map('strtolower',$keys);
-            if(count($csv_array) && $csv_fields == $keys ){
-                foreach ($csv_array as $key => $lineString)
-                {
-                    if($key) {
-                        $lineArray = explode(",",$lineString);
-                        $csv_format[] = $this->buildFormattedItem($keys, $lineArray);
-                    }
-                }
-                array_pop($csv_format);
-                // $this->file_routes_message = 'kghsdfdfs';
-                return [ 'header' =>  $keys, 'data' => $csv_format ];
-                //  return [ 'header' =>  [], 'data' => [], 'keys' => $keys];
-            } else {
-                // // array_pop($csv_array);
-                // $this->file_routes_message = '675465324';
-                return [ 'header' =>  [], 'data' => []];
-            }
-        } catch (Exception $e) {
-            // $this->file_routes_message = $e->getMessage();
-            throw $e;
-        }
-    }
-
     private function buildFormattedItem($keys, $data) {
         $responseFormat = [];
         foreach ($data as $key=>$value){
@@ -309,22 +275,6 @@ class Edit extends Component
 
     public function render()
     {
-        // $locations = Location::select('id', 'name')->whereIn('name', ['ZAPOPAN', 'ABASOLO', 'SLP'])->orderByRaw("CASE WHEN name = 'ZAPOPAN' THEN 1 WHEN name = 'ABASOLO' THEN 2 WHEN name = 'SLP' THEN 3 ELSE 4 END")->get();
-       
-        // // $locations = Location::whereIn('name', ['ABASOLO', 'SLP', 'ZAPOPAN'])->get();
-        // $locations->count();
-        // $this->path =
-        
-        // $locations = $this->getRouteLocations(1,'ZAPOPAN-ABASOLO-SLP');
-        // $this->path = json_encode($locations);
-       
-        // Location::where('name', $rutasArray[0])->first();
-        // Location::where('name', $rutasArray[0])->first();
-
-        // $addressRepository = new AddressRepository();
-        // $addressRepository->clearAll();
-        // $addressRepository->createBulk($addresses_bulk);
-
         return view('livewire.setting.edit');
     }
 }

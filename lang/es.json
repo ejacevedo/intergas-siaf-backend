@@ -49,7 +49,7 @@
     "CSV format required." : "Formato CSV requerido.",
     "Upload file": "Cargar archivo",
     "Load addresses file": "Cargar archivo de direcciones",
-    "Load file of routing - expenses": "Cargar archivo de rutas y gastos",
+    "Load file of routing": "Cargar archivo de rutas",
     "I am aware that these changes will affect the cost of the quotation.": "Soy consciente que estos cambios afectan los costos de cotización.",
     "Incorrect csv format.": "Formato csv incorrecto.",
     "csv_error_create_bulk": "No se han logrado crear sus :attribute, verifique que su archivo no tenga valores repetidos.",

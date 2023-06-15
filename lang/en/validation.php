@@ -189,7 +189,7 @@ return [
         'status' => 'status',
         'search' => 'search',
         'file_routes' => 'file quotes',
-        'file_addresses' => 'file locations',
+        'file_addresses' => 'file addresses',
         'density' => 'density',
         'price_sale' => 'price sale',
         'load_capacity_per_kilogram' => 'load capacity per kilogram',

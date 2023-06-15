@@ -60,7 +60,7 @@ class Handler extends ExceptionHandler
             } else {
                 return response()->json(
                 [ 
-                    'message' => 'External API call failed ',  
+                    'message' => 'External API call failed',  
                     'error' => $exception->getMessage()
                 ],500);
             }
@@ -68,7 +68,6 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
-    // Ultimas pruebasssss..
     // protected function unauthenticated($request, AuthenticationException $exception)
     // {
     //     return response()->json(['error' => '123213Unauthenticated.'], 401);

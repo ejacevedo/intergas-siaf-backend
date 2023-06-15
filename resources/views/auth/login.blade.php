@@ -9,11 +9,6 @@
         <div class="mt-4 mb-6 title text-center">
             SIAF MOBIL
         </div>
-        <!-- Username -->
-        <!-- <div>
-            <x-input-label for="username" :value="__('Username')" />
-            <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
-        </div> -->
         
         <div class="mb-6">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">{{ __('Username') }}</label>

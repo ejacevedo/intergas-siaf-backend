@@ -19,16 +19,6 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
     use HasRoles;
 
-    // protected static function boot()
-    // {
-    //     parent::boot();
-
-    //     // Order by name ASC
-    //     static::addGlobalScope('user', function (Builder $builder) {
-    //         $builder->orderBy('created_at', 'asc');
-    //     });
-    // }
-
     /**
      * The attributes that are mass assignable.
      *
