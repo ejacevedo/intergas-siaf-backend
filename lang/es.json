@@ -83,5 +83,6 @@
     "Updated password": "Contraseña actualizada",
     "The selected addresses have no route enabled": "Las direcciones seleccionadas no tienen ninguna ruta habilitada",
     "Configuration problems, please try again in the next few minutes. If this error persists, contact your support team.": "Problemas de configuración, intente nuevamente en los próximos minutos. Si este error persiste, contacte a su equipo de soporte.",
-    "An unexpected error has occurred, please try again in the next few minutes. If this error persists, contact your support team": "Se ha producido un error inesperado, inténtelo de nuevo en los próximos minutos. Si este error persiste, póngase en contacto con su equipo de asistencia"
+    "An unexpected error has occurred, please try again in the next few minutes. If this error persists, contact your support team": "Se ha producido un error inesperado, inténtelo de nuevo en los próximos minutos. Si este error persiste, póngase en contacto con su equipo de asistencia",
+    "Roles updated successfully": "Roles actualizados con éxito"
 }
