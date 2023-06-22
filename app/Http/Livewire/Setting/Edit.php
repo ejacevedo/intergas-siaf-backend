@@ -57,15 +57,15 @@ class Edit extends Component
         $this->routeRepository = app(RouteRepository::class);
         $this->validate();
         try {
-            // DB::beginTransaction();
+            DB::beginTransaction();
             $this->processFileAddresses();
             $this->processFileRoutes();
             $this->calcLoadCapacityPerLiter();
             $this->setting->save();
-            // DB::commit();
+            DB::commit();
             return Redirect::route('settings.edit')->with('status', 'updated');
         } catch (Exception $e) {
-            // DB::rollback();
+            DB::rollback();
             return;
         }
     }

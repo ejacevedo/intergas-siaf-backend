@@ -30,7 +30,7 @@ class AddressRepository
         return Address::findOrFail($id);
     }
 
-    public function getByFilters(array $filters): Address
+    public function getByFilters(array $filters)
     {
         $query = QueryBuilder::for(Address::class);
         $query->allowedFilters(array_keys($filters));
