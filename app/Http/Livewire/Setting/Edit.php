@@ -15,6 +15,9 @@ use Exception;
 use App\Repositories\AddressRepository;
 use App\Repositories\RouteRepository;
 
+use Illuminate\Support\Facades\DB;
+
+
 class Edit extends Component
 {
     use WithFileUploads;
@@ -235,12 +238,12 @@ class Edit extends Component
         }
 
         if (empty($address1)) {
-            $this->file_routes_message = __('address_not_found', ['name' => $addressName0, 'line' => $line]);
+            $this->file_routes_message = __('address_not_found', ['name' => $addressName1, 'line' => $line]);
             throw new \Exception($this->file_routes_message);
         }
 
         if (empty($address2)) {
-            $this->file_routes_message = __('address_not_found', ['name' => $addressName0, 'line' => $line]);
+            $this->file_routes_message = __('address_not_found', ['name' => $addressName2, 'line' => $line]);
             throw new \Exception($this->file_routes_message);
         }
 
