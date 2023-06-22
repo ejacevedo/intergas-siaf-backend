@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->boolean('status')->default(true);
-            $table->string('role_name')->nullable();
             $table->bigInteger('user_id')->nullable();
-            $table->index(['name', 'username', 'status', 'role_name']);
+            $table->index(['name', 'username']);
+            $table->index(['status']);
             $table->rememberToken();
             $table->timestamps();
         });

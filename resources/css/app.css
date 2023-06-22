@@ -3,12 +3,20 @@
 @tailwind utilities;
 
 
-.login .title {
-    font-size: 3em;
-    color: rgb(255 76 0 / var(--tw-bg-opacity));
-    font-weight: 900;
+/* @font-face {
+    font-family: 'Montserrat';
+    src: url('../../storage/fonts/Montserrat/Montserrat-VariableFont_wght.ttf');
 }
+* {
+    font-family: 'Montserrat', sans-serif;
+}  */
 
+.login .title {
+    font-size: 1.8rem; /* 24px */
+    line-height: 2rem; /* 32px */
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
 
 .bg-brand-shape {
     background: #fefefe url(../../brand-shape.png) no-repeat center center;

@@ -8,7 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException;
 use Illuminate\Http\Response;
-
+use App\Providers\RouteServiceProvider;
 
 use Throwable;
 
@@ -63,6 +63,10 @@ class Handler extends ExceptionHandler
             }
 
             return response()->json(['message' => $message, 'error' => $error], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        if ($exception instanceof UnauthorizedException) {
+            return redirect()->intended(RouteServiceProvider::UNAUTHORIZED);
         }
 
         return parent::render($request, $exception);

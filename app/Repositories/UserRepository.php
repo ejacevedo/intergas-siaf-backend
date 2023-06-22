@@ -88,7 +88,7 @@ class UserRepository
         return  $query->paginate($pagination);
     }
 
-    private function getAllowedFiltersForRole(): array
+    protected function getAllowedFiltersForRole(): array
     {
         $role = new Role();
         $columns = $role->getFillable();
@@ -98,7 +98,7 @@ class UserRepository
         }, $columns);
     }
 
-    private function getAllowedFiltersForUser(): array
+    protected function getAllowedFiltersForUser(): array
     {
         $user = new User();
         $columns = $user->getFillable();

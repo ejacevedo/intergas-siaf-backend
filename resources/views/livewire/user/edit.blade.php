@@ -17,21 +17,15 @@
                     @csrf
                     @method('patch')
 
-                    <!-- <div>
-                        <div class="relative">
-                            <input type="text" id="name" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" id="name" wire:model="name" />
-                            <label for="name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Name') }}</label>
-                        </div>
-                        @error('name') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
-                    </div> -->
-
+                
                     <div>
                         <div class="relative">
-                            <input autocomplete="nope" type="text" id="name" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="name" wire:model.defer="name" />
-                            <label for="name" class="absolute text-sm text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white  px-2 peer-focus:px-2 peer-focus:text-blue-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Name') }}</label>
+                            <input type="text" id="name" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " id="name" wire:model="name" />
+                            <label for="name" class="absolute text-sm text-gray-900 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Name') }}</label>
                         </div>
                         @error('name') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
+                
 
                     <div>
                         <div class="relative">
@@ -40,14 +34,13 @@
                         </div>
                         @error('username') <span class="text-xs text-red-600 space-y-1 mt-2">{{ $message }}</span>@enderror
                     </div>
-
-
+                    
                     <div>
                         <div class="relative">
                             <label for="roles" class="absolute text-sm text-gray-900 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Roles')  }}</label>
                             <select multiple id="roles" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" wire:model.defer="selected_roles">
                                 @foreach ($roles as $role)
-                                <option value="{{$role->name}}"> {{ __('roles.'.$role->name) }}</option>
+                                <option value="{{ $role['name'] }}"> {{ $role['label'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -55,8 +48,8 @@
 
                     <div>
                         <div class="relative">
-                            <label for="name" class="absolute text-sm text-gray-900 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Status')  }}</label>
-                            <select id="roles" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" wire:model="status">
+                            <label for="status" class="absolute text-sm text-gray-900 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1">{{ __('Status')  }}</label>
+                            <select id="status" class="shadow-sm p-4 block w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" wire:model="status">
                                 <option value="true">{{ __('Active') }}</option>
                                 <option value="false">{{ __('Inactive')}}</option>
                             </select>

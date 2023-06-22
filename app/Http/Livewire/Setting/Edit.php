@@ -72,7 +72,13 @@ class Edit extends Component
 
     public function calcLoadCapacityPerLiter()
     {
-        $this->setting->load_capacity_per_liter = round($this->setting->load_capacity_per_kilogram / $this->setting->density, 2);
+        if($this->setting->load_capacity_per_kilogram && $this->setting->density) {
+            $this->setting->load_capacity_per_liter = round($this->setting->load_capacity_per_kilogram / $this->setting->density, 2);
+        }
+
+        if(empty($this->setting->load_capacity_per_kilogram) || empty($this->setting->density)) {
+            $this->setting->load_capacity_per_liter = 0;
+        }
     }
 
     private function processFileAddresses()

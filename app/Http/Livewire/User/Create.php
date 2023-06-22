@@ -22,7 +22,7 @@ class Create extends Component
     {
         $this->userRepository = app(UserRepository::class);
         $this->user = $this->userRepository->newInstance();
-        $this->roles = $this->userRepository->getAllRoles()->all();
+        $this->roles = $this->userRepository->getAllRoles()->items();
     }
 
     protected function rules()

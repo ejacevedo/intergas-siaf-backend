@@ -5,6 +5,7 @@ namespace App\Http\Livewire\User;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\UserRepository;
+use App\Models\Role;
 
 use Livewire\Component;
 
@@ -20,7 +21,7 @@ class Edit extends Component
     public $roles;
     public $selected_roles;
     protected $userRepository;
-
+    
     protected $rules = [
         'name' => 'required|string',
         'username' => 'required|string',
@@ -31,7 +32,7 @@ class Edit extends Component
     {
         $this->userRepository = app(UserRepository::class);
         $this->user = $this->userRepository->getById($id);
-        $this->roles = $this->userRepository->getAllRoles()->all();
+        $this->roles = $this->userRepository->getAllRoles()->items();
         $this->name = $this->user->name;
         $this->username = $this->user->username;
         $this->selected_roles = $this->user->getRoleNames();
@@ -68,7 +69,7 @@ class Edit extends Component
         }
 
         $this->user->save();
-        $this->user->syncRoles($this->selected_roles);
+        // $this->user->syncRoles($this->selected_roles);
 
         return redirect()->route('users.index');
     }

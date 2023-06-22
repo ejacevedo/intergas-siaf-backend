@@ -31,4 +31,12 @@ class QuoteRoute
     {
         return round($quote->price_sale / $setting->load_capacity_per_liter, 2);
     }
+
+    public function thousandsFormat(Route $quote): Route
+    {
+        $quote->cost_travel = "$".number_format($quote->cost_travel, 2);
+        $quote->liters = number_format($quote->liters, 2);
+        $quote->kilometer = number_format($quote->kilometer, 2);
+        return $quote;
+    }
 }

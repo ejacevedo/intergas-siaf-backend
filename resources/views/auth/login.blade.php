@@ -6,9 +6,11 @@
         @csrf
 
 
-        <div class="mt-4 mb-6 title text-center">
-            SIAF MOBIL
+        <div class="mt-4 mb-6 title text-center text-gray-900">
+            Intergas SIAF
         </div>
+        
+        <!-- <h2 class="mt-6 text-center text-xl font-bold leading-9 tracking-tight text-gray-900">Intergas SIAF</h2> -->
 
         <div class="mb-6">
             <label for="username" class="block mb-2 text-sm font-medium text-gray-900 ">{{ __('Username') }}</label>
@@ -17,7 +19,7 @@
 
         <div class="mb-6">
             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 ">{{ __('Password') }}</label>
-            <input type="password" id="password" class="shadow-sm block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500" id="password" type="password" name="password" required="required" autocomplete="current-password" placeholder="{{ __('placeholder_password') }}">
+            <input id="password" class="shadow-sm block w-full p-4 text-gray-900 border border-gray-300 rounded-lg bg-white-50 sm:text-md focus:ring-gray-500 focus:border-gray-500" id="password" type="password" name="password" required="required" autocomplete="current-password" placeholder="{{ __('placeholder_password') }}">
         </div>
 
         <div class="mt-4">
@@ -32,6 +34,7 @@
 
         </div>
     </form>
+
 </x-guest-layout>
 
 

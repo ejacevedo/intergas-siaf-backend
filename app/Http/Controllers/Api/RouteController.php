@@ -66,11 +66,13 @@ class RouteController extends Controller
                 throw new ModelNotFoundException(__('The selected addresses have no route enabled'));
             }
 
+            
             $router['liters'] = $quoteRoute->getLiters($router);
             $router['cost_travel'] = $quoteRoute->getCostTravel($router);
             $router['price_sale'] = $quoteRoute->getPriceSale($setting, $router);
             $router['cost_per_kilogram'] = $quoteRoute->getCostPerKilogram($setting, $router);
             $router['cost_per_liter'] = $quoteRoute->getCostPerliter($setting, $router);
+            $router = $quoteRoute->thousandsFormat($router);
 
             return response()->json($router, Response::HTTP_OK);
         } catch (Exception $e) {

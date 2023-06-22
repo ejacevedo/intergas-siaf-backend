@@ -17,6 +17,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
+    public const UNAUTHORIZED = '/login';
     public const HOME = '/users';
     public const HOME_ROLE_ADMIN_QUOTE = '/settings';
 
