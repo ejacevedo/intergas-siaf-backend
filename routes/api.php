@@ -6,6 +6,8 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\RouteController;
+use Illuminate\Http\Response;
+
 
 use App\Constants\Roles;
 
@@ -30,6 +32,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/change_password', [AuthController::class, 'changePassword']);
+
+    Route::get('/google_map_key', function () {
+        $google_map_key = config('services.google_map.key');
+        return response()->json( ['key' => $google_map_key ], $google_map_key ? Response::HTTP_OK :  Response::HTTP_BAD_REQUEST);
+    });
+
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:' . implode('|', [Roles::ROOT, Roles::ADMIN_QUOTE])]], function () {
